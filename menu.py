@@ -1,0 +1,63 @@
+import tkinter as tk
+from biseccion import *
+
+def biseccion_method():
+    funcion_usuario = input("Ingrese la función en términos de x: ")
+    xi = int(input("Ingrese el limite xi: "))
+    xu = int(input("Ingrese el limite xu: "))
+    iteraciones = int(input("Ingrese el numero maximo de iteraciones: "))
+    error = float(input("Ingrese el porcentaje de error que desea manejar: "))
+
+    funcion = sp.sympify(funcion_usuario)
+    raiz = biseccion(xi, xu, funcion, iteraciones, error)
+    graficar_biseccion('x',funcion, xi, xu, raiz)
+
+def falsa_posicion():
+    print("Método de Falsa Posición seleccionado")
+
+def newton_raphson():
+    print("Método de Newton Raphson seleccionado")
+
+def secante():
+    print("Método de Secante seleccionado")
+
+# Crear la ventana principal
+root = tk.Tk()
+root.title("Métodos Numericos")
+
+# Aumentar el tamaño de la ventana principal
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+window_width = 500 # Aumentar el ancho de la ventana
+window_height = 300 # Aumentar el alto de la ventana
+x = (screen_width / 2) - (window_width / 2)
+y = (screen_height / 2) - (window_height / 2)
+root.geometry('%dx%d+%d+%d' % (window_width, window_height, x, y))
+
+# Metodos Cerrados
+frame_cerrado = tk.Frame(root)
+frame_cerrado.pack(pady=10)
+
+label_cerrados = tk.Label(frame_cerrado, text="Método Cerrados")
+label_cerrados.pack()
+
+bton_biseccion = tk.Button(frame_cerrado, text="Biseccion", command=biseccion_method)
+bton_biseccion.pack(pady=5)
+
+bton_falsa_posicion = tk.Button(frame_cerrado, text="Falsa Posición", command=falsa_posicion)
+bton_falsa_posicion.pack(pady=5)
+
+# Metodos Abiertos
+frame_abierto = tk.Frame(root)
+frame_abierto.pack(pady=10)
+
+label_abiertos = tk.Label(frame_abierto, text="Método Abiertos")
+label_abiertos.pack()
+
+bton_newton_rap = tk.Button(frame_abierto, text="Newton Raphson", command=newton_raphson)
+bton_newton_rap.pack(pady=5)
+
+bton_secante = tk.Button(frame_abierto, text="Secante", command=secante)
+bton_secante.pack(pady=5)
+
+root.mainloop()
