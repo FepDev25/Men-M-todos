@@ -1,16 +1,8 @@
 import tkinter as tk
 from biseccion import *
 
-def biseccion_method():
-    funcion_usuario = input("Ingrese la función en términos de x: ")
-    xi = int(input("Ingrese el limite xi: "))
-    xu = int(input("Ingrese el limite xu: "))
-    iteraciones = int(input("Ingrese el numero maximo de iteraciones: "))
-    error = float(input("Ingrese el porcentaje de error que desea manejar: "))
-
-    funcion = sp.sympify(funcion_usuario)
-    raiz = biseccion(xi, xu, funcion, iteraciones, error)
-    graficar_biseccion('x',funcion, xi, xu, raiz)
+def biseccion():
+    biseccion_method_window(root)
 
 def falsa_posicion():
     print("Método de Falsa Posición seleccionado")
@@ -41,7 +33,7 @@ frame_cerrado.pack(pady=10)
 label_cerrados = tk.Label(frame_cerrado, text="Método Cerrados")
 label_cerrados.pack()
 
-bton_biseccion = tk.Button(frame_cerrado, text="Biseccion", command=biseccion_method)
+bton_biseccion = tk.Button(frame_cerrado, text="Biseccion", command=biseccion)
 bton_biseccion.pack(pady=5)
 
 bton_falsa_posicion = tk.Button(frame_cerrado, text="Falsa Posición", command=falsa_posicion)
