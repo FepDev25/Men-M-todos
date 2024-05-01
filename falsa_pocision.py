@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from tabla import Table
 
-def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_error):
-    xr = 0
+def falsa_pocision(xi, xu, mi_funcion, max_pasadas, porcentaje_error):
     xr_ant = 0
+    xr = 0
     x = sp.Symbol('x')
     funcion = mi_funcion
 
@@ -16,17 +16,17 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_error):
     while pasadas < max_pasadas:
         xr_ant = xr
 
-        xr = (xi + xu) / 2
-        
         fxi = funcion.subs(x, xi)
         fxu = funcion.subs(x, xu)
+
+        xr = xu - ( (fxu * (xi - xu)) / (fxi - fxu) )
+
         fxr = funcion.subs(x, xr)
 
         fxi_x_fxr = fxi * fxr
 
         error_aprox = xr - xr_ant
         error_porcentual = (error_aprox / xr) * 100
-
 
         datos_iteraciones.append({
             'xi': xi,
@@ -45,15 +45,16 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_error):
         elif fxi_x_fxr > 0:
             xi = xr
         else:
-            return xr, pasadas, datos_iteraciones
+            return xr, pasadas, datos_iteraciones  
 
         if (abs(error_porcentual) <= porcentaje_error):
             return xr, pasadas, datos_iteraciones
+
         
         pasadas += 1
     return xr, pasadas, datos_iteraciones
 
-def graficar_biseccion(simbolo, mi_funcion, rango_x, rango_y, raiz):
+def graficar_falsa_pocision(simbolo, mi_funcion, rango_x, rango_y, raiz):
     x = sp.Symbol(simbolo)
     funcion = mi_funcion
 
@@ -71,9 +72,9 @@ def graficar_biseccion(simbolo, mi_funcion, rango_x, rango_y, raiz):
     plt.legend()
     plt.show()
 
-def biseccion_method_window(root):
+def falsa_pocision_method_window(root):
     window = tk.Toplevel(root)
-    window.title("Datos para Método de Bisección")
+    window.title("Datos para metodo de Falsa Posición")
 
     label_funcion = tk.Label(window, text="Ingrese la función en términos de x: ")
     label_funcion.grid(row=0, column=0)
@@ -100,11 +101,11 @@ def biseccion_method_window(root):
     entrada_error = tk.Entry(window)
     entrada_error.grid(row=4, column=1)
 
-    boton_calcular = tk.Button(window, text="Calcular", command=lambda: calcular_biseccion(
+    boton_calcular = tk.Button(window, text="Calcular", command=lambda: calcular_falsa_pocision(
         entrada_funcion.get(), entrada_xi.get(), entrada_xu.get(), entrada_iteraciones.get(), entrada_error.get(), root, window))
     boton_calcular.grid(row=5, columnspan=2, pady=5)
 
-def calcular_biseccion(funcion, xi, xu, iteraciones, error, root, window):
+def calcular_falsa_pocision(funcion, xi, xu, iteraciones, error, root, window):
     xi = float(xi)
     xu = float(xu)
     iteraciones = int(iteraciones)
@@ -112,7 +113,7 @@ def calcular_biseccion(funcion, xi, xu, iteraciones, error, root, window):
 
     funcion_expr = sp.sympify(funcion)
 
-    raiz, pasadas, datos_iteraciones = biseccion(xi, xu, funcion_expr, iteraciones, error)
+    raiz, pasadas, datos_iteraciones = falsa_pocision(xi, xu, funcion_expr, iteraciones, error)
 
     table_window = tk.Toplevel(root)
     table_window.title("Tabla de Resultados")
@@ -139,8 +140,7 @@ def calcular_biseccion(funcion, xi, xu, iteraciones, error, root, window):
         table.set_cell_value(i, 6, datos['fxi_x_fxr'])
         table.set_cell_value(i, 7, datos['error_aprox'])
         table.set_cell_value(i, 8, datos['error_porcentual'])
-
-    graficar_biseccion('x', funcion_expr, xi, xu, raiz)
+    
+    graficar_falsa_pocision('x', funcion_expr, xi, xu, raiz)
 
     window.destroy()
-

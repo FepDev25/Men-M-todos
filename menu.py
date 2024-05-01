@@ -1,11 +1,12 @@
 import tkinter as tk
 from biseccion import *
+from falsa_pocision import *
 
 def biseccion():
     biseccion_method_window(root)
 
 def falsa_posicion():
-    print("Método de Falsa Posición seleccionado")
+    falsa_pocision_method_window(root)
 
 def newton_raphson():
     print("Método de Newton Raphson seleccionado")
