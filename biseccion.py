@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from tabla import Table
 from scipy.optimize import root
+from tkinter import messagebox
 
-def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_error):
+def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verdadero):
     xr = 0
     xr_ant = 0
     x = sp.Symbol('x')
@@ -39,18 +40,19 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_error):
         error_verdadero = valor_verdadero - xr
         error_verdadero_porcentual = (error_verdadero/valor_verdadero) * 100
 
+        cifras_redondeo = 7
         datos_iteraciones.append({
-            'xi': round(xi, 4),
-            'fxi': round(fxi, 4),
-            'xu': round(xu, 4),
-            'fxu': round(fxu, 4),
+            'xi': round(xi, cifras_redondeo),
+            'fxi': round(fxi, cifras_redondeo),
+            'xu': round(xu, cifras_redondeo),
+            'fxu': round(fxu, cifras_redondeo),
             'xr': xr,
-            'fxr': round(fxr, 4),
+            'fxr': round(fxr, cifras_redondeo),
             'valor_verdadero': valor_verdadero,
-            'error_verdadero': round(abs(error_verdadero),5),
-            'error_verdadero_porcentual': round(abs(error_verdadero_porcentual), 5), 
-            'error_aprox':round( abs(error_aprox), 5),
-            'error_porcentual': round(abs(error_porcentual), 5)
+            'error_verdadero': round(abs(error_verdadero),cifras_redondeo+1),
+            'error_verdadero_porcentual': round(abs(error_verdadero_porcentual), cifras_redondeo+1), 
+            'error_aprox':round( abs(error_aprox), cifras_redondeo+1),
+            'error_porcentual': round(abs(error_porcentual), cifras_redondeo+1)
         })
 
         if fxi_x_fxr < 0:
@@ -58,14 +60,21 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_error):
         elif fxi_x_fxr > 0:
             xi = xr
         else:
+            messagebox.showinfo("Raiz", f"Raiz Encontrada: {xi}")
             return xr, pasadas, datos_iteraciones
 
+        if abs(error_verdadero_porcentual) <= porcentaje_verdadero:
+            messagebox.showinfo("Raiz", f"Error verdadero alcanzado: {abs(error_verdadero_porcentual)}\nRaiz: {xi}")
+            return xr, pasadas, datos_iteraciones
+        
         if pasadas > 1:
-            if (abs(error_porcentual) <= porcentaje_error):
+            if (abs(error_porcentual) <= porcentaje_aprox):
+                messagebox.showinfo("Raiz", f"Error aproximado alcanzado: {abs(error_porcentual)}\nRaiz: {xi}")
                 return xr, pasadas, datos_iteraciones
         
         
         pasadas += 1
+    messagebox.showinfo("Raiz", f"Iteraciones realizadas: {pasadas}\nRaiz: {xi}")
     return xr, pasadas, datos_iteraciones
 
 def graficar_biseccion(simbolo, mi_funcion, rango_x, rango_y, raiz):
@@ -110,24 +119,38 @@ def biseccion_method_window(root):
     entrada_iteraciones = tk.Entry(window)
     entrada_iteraciones.grid(row=3, column=1)
 
-    label_error = tk.Label(window, text="Ingrese el porcentaje de error que desea manejar: ")
-    label_error.grid(row=4, column=0)
-    entrada_error = tk.Entry(window)
-    entrada_error.grid(row=4, column=1)
+    label_error_aprox = tk.Label(window, text="Ingrese el porcentaje de error aproximado que desea manejar: ")
+    label_error_aprox.grid(row=4, column=0)
+    entrada_error_aprox = tk.Entry(window)
+    entrada_error_aprox.grid(row=4, column=1)
+
+    label_error_verdadero = tk.Label(window, text="Ingrese el porcentaje de error verdadero que desea manejar: ")
+    label_error_verdadero.grid(row=5, column=0)
+    entrada_error_verdadero = tk.Entry(window)
+    entrada_error_verdadero.grid(row=5, column=1)
 
     boton_calcular = tk.Button(window, text="Calcular", command=lambda: calcular_biseccion(
-        entrada_funcion.get(), entrada_xi.get(), entrada_xu.get(), entrada_iteraciones.get(), entrada_error.get(), root, window))
-    boton_calcular.grid(row=5, columnspan=2, pady=5)
+        entrada_funcion.get(), entrada_xi.get(), entrada_xu.get(), entrada_iteraciones.get(), entrada_error_aprox.get(), entrada_error_verdadero.get(),root, window))
+    boton_calcular.grid(row=6, columnspan=2, pady=5)
 
-def calcular_biseccion(funcion, xi, xu, iteraciones, error, root, window):
+def calcular_biseccion(funcion, xi, xu, iteraciones, error_aprox, error_verdadero, root, window):
+    if error_aprox == "":
+        error_aprox = 0
+    else:
+        error_aprox = float(error_aprox)
+
+    if error_verdadero == "":
+        error_verdadero = 0
+    else:
+        error_verdadero = float(error_verdadero)
+
     xi = float(xi)
     xu = float(xu)
     iteraciones = int(iteraciones)
-    error = float(error)
 
     funcion_expr = sp.sympify(funcion)
 
-    raiz, pasadas, datos_iteraciones = biseccion(xi, xu, funcion_expr, iteraciones, error)
+    raiz, pasadas, datos_iteraciones = biseccion(xi, xu, funcion_expr, iteraciones, error_aprox, error_verdadero)
 
     table_window = tk.Toplevel(root)
     table_window.title("Tabla de Resultados")
