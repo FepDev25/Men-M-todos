@@ -165,5 +165,3 @@ def calcular_falsa_pocision(funcion, xi, xu, iteraciones, error_aproximado, erro
         table.set_cell_value(i, 10, datos['error_porcentual'])
     
     graficar_cerrados('x', funcion_expr, xi, xu, raiz)
-
-    window.destroy()

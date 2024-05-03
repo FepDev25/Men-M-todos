@@ -164,5 +164,3 @@ def calcular_biseccion(funcion, xi, xu, iteraciones, error_aprox, error_verdader
         table.set_cell_value(i, 10, datos['error_porcentual'])
 
     graficar_cerrados('x', funcion_expr, xi, xu, raiz)
-
-    window.destroy()
