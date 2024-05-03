@@ -1,14 +1,25 @@
+import math
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
-
+import tkinter as tk
+from tabla import Table
+from scipy.optimize import root
+from tkinter import messagebox
+from graficas import graficar_abiertos
 
 def secante(mi_funcion, x0, x1, maximo_iteraciones):
-    
     iteracion = 1
     x = sp.Symbol('x')
     funcion = mi_funcion
     x_i = 0
+
+    datos_iteraciones = []
+
+    funcion_numerica = sp.lambdify(x, funcion)
+    solucion = root(funcion_numerica, x0) 
+    valor_verdadero = solucion.x[0]
+
     while(iteracion <= maximo_iteraciones):
         print(f"Iteracion N{iteracion}")
         print(f"x0: {x0}")
