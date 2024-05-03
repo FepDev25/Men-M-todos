@@ -1,10 +1,9 @@
 import sympy as sp
-import numpy as np
-import matplotlib.pyplot as plt
 import tkinter as tk
 from tabla import Table
 from scipy.optimize import root
 from tkinter import messagebox
+from graficas import graficar_cerrados
 
 def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verdadero):
     xr = 0
@@ -22,7 +21,7 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verd
     solucion = root(funcion_numerica, xi) 
     valor_verdadero = solucion.x[0]
 
-    while pasadas < max_pasadas:
+    while pasadas <= max_pasadas:
         xr_ant = xr
 
         xr = (xi + xu) / 2
@@ -74,26 +73,8 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verd
         
         
         pasadas += 1
-    messagebox.showinfo("Raiz", f"Iteraciones realizadas: {pasadas}\nRaiz: {xi}")
-    return xr, pasadas, datos_iteraciones
-
-def graficar_biseccion(simbolo, mi_funcion, rango_x, rango_y, raiz):
-    x = sp.Symbol(simbolo)
-    funcion = mi_funcion
-
-    funcion_numpy = sp.lambdify(x, funcion, 'numpy')
-
-    x_vals = np.linspace(rango_x, rango_y, 100)
-    y_vals = funcion_numpy(x_vals)
-
-    plt.plot(x_vals, y_vals, label=f'$f(x) = {str(funcion)}')
-    plt.xlabel('x')
-    plt.ylabel('f(x)')
-    plt.title('Gráfico de $f(x)$')
-    plt.scatter(raiz, 0, color='red')
-    plt.grid(True)
-    plt.legend()
-    plt.show()
+    messagebox.showinfo("Raiz", f"Iteraciones realizadas: {max_pasadas}\nRaiz: {xi}")
+    return xr, max_pasadas, datos_iteraciones
 
 def biseccion_method_window(root):
     window = tk.Toplevel(root)
@@ -182,7 +163,6 @@ def calcular_biseccion(funcion, xi, xu, iteraciones, error_aprox, error_verdader
         table.set_cell_value(i, 9, datos['error_aprox'])
         table.set_cell_value(i, 10, datos['error_porcentual'])
 
-    graficar_biseccion('x', funcion_expr, xi, xu, raiz)
+    graficar_cerrados('x', funcion_expr, xi, xu, raiz)
 
     window.destroy()
-

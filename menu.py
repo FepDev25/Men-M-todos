@@ -1,6 +1,7 @@
 import tkinter as tk
 from biseccion import *
 from falsa_pocision import *
+from newton_raphson import *
 
 def biseccion():
     biseccion_method_window(root)
@@ -9,20 +10,18 @@ def falsa_posicion():
     falsa_pocision_method_window(root)
 
 def newton_raphson():
-    print("Método de Newton Raphson seleccionado")
+    newton_raphsonn_method_window(root)
 
 def secante():
     print("Método de Secante seleccionado")
 
-# Crear la ventana principal
 root = tk.Tk()
 root.title("Métodos Numericos")
 
-# Aumentar el tamaño de la ventana principal
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
-window_width = 500 # Aumentar el ancho de la ventana
-window_height = 300 # Aumentar el alto de la ventana
+window_width = 500 
+window_height = 300
 x = (screen_width / 2) - (window_width / 2)
 y = (screen_height / 2) - (window_height / 2)
 root.geometry('%dx%d+%d+%d' % (window_width, window_height, x, y))
