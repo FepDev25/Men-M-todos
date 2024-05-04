@@ -2,6 +2,7 @@ import tkinter as tk
 from biseccion import *
 from falsa_pocision import *
 from newton_raphson import *
+from secante import *
 
 def biseccion():
     biseccion_method_window(root)
@@ -13,7 +14,7 @@ def newton_raphson():
     newton_raphsonn_method_window(root)
 
 def secante():
-    print("Método de Secante seleccionado")
+    secante_method_window(root)
 
 root = tk.Tk()
 root.title("Métodos Numericos")
