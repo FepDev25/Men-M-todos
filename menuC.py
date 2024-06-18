@@ -16,7 +16,7 @@ def newton_raphson():
 def secante():
     secante_method_window(root)
 
-c_azul = '#1086F4'
+c_azul = '#7CCBEE'
 c_azul_oscuro = '#034D92'
 c_morado = '#7f5af0'
 c_verde = '#2cb67d'
