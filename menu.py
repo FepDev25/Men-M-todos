@@ -8,20 +8,21 @@ from tkinter_custom_button import TkinterCustomButton
 color_fondo = "#2C3E50"
 
 def create_custom_button(text, command, frame):
-    custom_button = TkinterCustomButton(master=frame,
-                                        bg_color=None,
-                                          fg_color="#212F3D",
-                                          border_color="#117A65",
-                                          hover_color="#34495E",
-                                          text_font=None,
-                                          text=text,
-                                          text_color="white",
-                                          corner_radius=12,
-                                          border_width=4,
-                                          width=120 if len(text) > 10 else 100,
-                                          height=60,
-                                          hover=True,
-                                        command=command)
+    custom_button = TkinterCustomButton(
+        master=frame,
+        bg_color=None,
+        fg_color="#212F3D",
+        border_color="#117A65",
+        hover_color="#34495E",
+        text_font=None,
+        text=text,
+        text_color="white",
+        corner_radius=12,
+        border_width=4,
+        width=120 if len(text) > 10 else 100,
+        height=60,
+        hover=True,
+        command=command)
     return custom_button
 
 def biseccion():

@@ -103,50 +103,53 @@ def secante_method_window(root):
     boton_calcular.grid(row=6, columnspan=2, pady=5)
 
 def calcular_secante(mi_funcion, x0, x1, maximo_iteraciones, error_porcentaje_max, error_verdadero_max, root, window):
-    if error_porcentaje_max == "":
-        error_porcentaje_max = 0
-    else:
-        error_porcentaje_max = float(error_porcentaje_max)
+    try:
+        if error_porcentaje_max == "":
+            error_porcentaje_max = 0
+        else:
+            error_porcentaje_max = float(error_porcentaje_max)
 
-    if error_verdadero_max == "":
-        error_verdadero_max = 0
-    else:
-        error_verdadero_max = float(error_verdadero_max)
+        if error_verdadero_max == "":
+            error_verdadero_max = 0
+        else:
+            error_verdadero_max = float(error_verdadero_max)
 
-    x0 = float(x0)
-    x1 = float(x1)
-    iteraciones = int(maximo_iteraciones)
+        x0 = float(x0)
+        x1 = float(x1)
+        iteraciones = int(maximo_iteraciones)
 
-    funcion_expr = sp.sympify(mi_funcion)
+        funcion_expr = sp.sympify(mi_funcion)
 
-    raiz, pasadas, datos_iteraciones = secante(funcion_expr, x0, x1, iteraciones, error_porcentaje_max, error_verdadero_max)
+        raiz, pasadas, datos_iteraciones = secante(funcion_expr, x0, x1, iteraciones, error_porcentaje_max, error_verdadero_max)
 
-    table_window = tk.Toplevel(root)
-    table_window.title("Tabla de Resultados")
+        table_window = tk.Toplevel(root)
+        table_window.title("Tabla de Resultados")
 
-    table = Table(table_window, filas=pasadas+1, columnas=11)
-    table.pack(expand=True, fill=tk.BOTH)
-    table.set_cell_value(0, 0, "Xi-2")
-    table.set_cell_value(0, 1, "f(xi-2)")
-    table.set_cell_value(0, 2, "Xi-1")
-    table.set_cell_value(0, 3, "f(xi-1)")
-    table.set_cell_value(0, 4, "Xi")
-    table.set_cell_value(0, 5, "V Verd")
-    table.set_cell_value(0, 6, "Err V")
-    table.set_cell_value(0, 7, "Err V%")
-    table.set_cell_value(0, 8, "Err Apr")
-    table.set_cell_value(0, 9, "Err Apr%")
+        table = Table(table_window, filas=pasadas+1, columnas=11)
+        table.pack(expand=True, fill=tk.BOTH)
+        table.set_cell_value(0, 0, "Xi-2")
+        table.set_cell_value(0, 1, "f(xi-2)")
+        table.set_cell_value(0, 2, "Xi-1")
+        table.set_cell_value(0, 3, "f(xi-1)")
+        table.set_cell_value(0, 4, "Xi")
+        table.set_cell_value(0, 5, "V Verd")
+        table.set_cell_value(0, 6, "Err V")
+        table.set_cell_value(0, 7, "Err V%")
+        table.set_cell_value(0, 8, "Err Apr")
+        table.set_cell_value(0, 9, "Err Apr%")
 
-    for i, datos in enumerate(datos_iteraciones, start=1): 
-        table.set_cell_value(i, 0, datos['x0'])
-        table.set_cell_value(i, 1, datos['fx0'])
-        table.set_cell_value(i, 2, datos['x1'])
-        table.set_cell_value(i, 3, datos['fx1'])
-        table.set_cell_value(i, 4, datos['xi'])
-        table.set_cell_value(i, 5, datos['valor_verdadero'])
-        table.set_cell_value(i, 6, datos['error_verdadero'])
-        table.set_cell_value(i, 7, datos['error_verdadero_porcentual'])
-        table.set_cell_value(i, 8, datos['error_aprox'])
-        table.set_cell_value(i, 9, datos['error_aprox_porcentual'])
+        for i, datos in enumerate(datos_iteraciones, start=1): 
+            table.set_cell_value(i, 0, datos['x0'])
+            table.set_cell_value(i, 1, datos['fx0'])
+            table.set_cell_value(i, 2, datos['x1'])
+            table.set_cell_value(i, 3, datos['fx1'])
+            table.set_cell_value(i, 4, datos['xi'])
+            table.set_cell_value(i, 5, datos['valor_verdadero'])
+            table.set_cell_value(i, 6, datos['error_verdadero'])
+            table.set_cell_value(i, 7, datos['error_verdadero_porcentual'])
+            table.set_cell_value(i, 8, datos['error_aprox'])
+            table.set_cell_value(i, 9, datos['error_aprox_porcentual'])
 
-    graficar_abiertos('x', funcion_expr, int(raiz), raiz)
+        graficar_abiertos('x', funcion_expr, int(raiz), raiz)
+    except ValueError:
+        tk.messagebox.showwarning(title="Error", message="Ingresar Valores Válidos.")

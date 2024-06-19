@@ -116,52 +116,56 @@ def falsa_pocision_method_window(root):
     boton_calcular.grid(row=6, columnspan=2, pady=5)
 
 def calcular_falsa_pocision(funcion, xi, xu, iteraciones, error_aproximado, error_verdadero ,root, window):
-    if error_aproximado == "":
-        error_aproximado = 0
-    else:
-        error_aproximado = float(error_aproximado)
+    try:
 
-    if error_verdadero == "":
-        error_verdadero = 0
-    else:
-        error_verdadero = float(error_verdadero)
-    
-    xi = float(xi)
-    xu = float(xu)
-    iteraciones = int(iteraciones)
+        if error_aproximado == "":
+            error_aproximado = 0
+        else:
+            error_aproximado = float(error_aproximado)
 
-    funcion_expr = sp.sympify(funcion)
+        if error_verdadero == "":
+            error_verdadero = 0
+        else:
+            error_verdadero = float(error_verdadero)
+        
+        xi = float(xi)
+        xu = float(xu)
+        iteraciones = int(iteraciones)
 
-    raiz, pasadas, datos_iteraciones = falsa_pocision(xi, xu, funcion_expr, iteraciones, error_aproximado, error_verdadero)
+        funcion_expr = sp.sympify(funcion)
 
-    table_window = tk.Toplevel(root)
-    table_window.title("Tabla de Resultados")
+        raiz, pasadas, datos_iteraciones = falsa_pocision(xi, xu, funcion_expr, iteraciones, error_aproximado, error_verdadero)
 
-    table = Table(table_window, filas=pasadas+1, columnas=11)
-    table.pack(expand=True, fill=tk.BOTH)
-    table.set_cell_value(0, 0, "xi")
-    table.set_cell_value(0, 1, "f(xi)")
-    table.set_cell_value(0, 2, "xu")
-    table.set_cell_value(0, 3, "f(xu)")
-    table.set_cell_value(0, 4, "xr")
-    table.set_cell_value(0, 5, "f(xr)")
-    table.set_cell_value(0, 6, "V Verd")
-    table.set_cell_value(0, 7, "Err V")
-    table.set_cell_value(0, 8, "Err V%")
-    table.set_cell_value(0, 9, "Err Apr")
-    table.set_cell_value(0, 10, "Err Apr%")
+        table_window = tk.Toplevel(root)
+        table_window.title("Tabla de Resultados")
 
-    for i, datos in enumerate(datos_iteraciones, start=1): 
-        table.set_cell_value(i, 0, datos['xi'])
-        table.set_cell_value(i, 1, datos['fxi'])
-        table.set_cell_value(i, 2, datos['xu'])
-        table.set_cell_value(i, 3, datos['fxu'])
-        table.set_cell_value(i, 4, datos['xr'])
-        table.set_cell_value(i, 5, datos['fxr'])
-        table.set_cell_value(i, 6, datos['valor_verdadero'])
-        table.set_cell_value(i, 7, datos['error_verdadero'])
-        table.set_cell_value(i, 8, datos['error_verdadero_porcentual'])
-        table.set_cell_value(i, 9, datos['error_aprox'])
-        table.set_cell_value(i, 10, datos['error_porcentual'])
-    
-    graficar_cerrados('x', funcion_expr, xi, xu, raiz)
+        table = Table(table_window, filas=pasadas+1, columnas=11)
+        table.pack(expand=True, fill=tk.BOTH)
+        table.set_cell_value(0, 0, "xi")
+        table.set_cell_value(0, 1, "f(xi)")
+        table.set_cell_value(0, 2, "xu")
+        table.set_cell_value(0, 3, "f(xu)")
+        table.set_cell_value(0, 4, "xr")
+        table.set_cell_value(0, 5, "f(xr)")
+        table.set_cell_value(0, 6, "V Verd")
+        table.set_cell_value(0, 7, "Err V")
+        table.set_cell_value(0, 8, "Err V%")
+        table.set_cell_value(0, 9, "Err Apr")
+        table.set_cell_value(0, 10, "Err Apr%")
+
+        for i, datos in enumerate(datos_iteraciones, start=1): 
+            table.set_cell_value(i, 0, datos['xi'])
+            table.set_cell_value(i, 1, datos['fxi'])
+            table.set_cell_value(i, 2, datos['xu'])
+            table.set_cell_value(i, 3, datos['fxu'])
+            table.set_cell_value(i, 4, datos['xr'])
+            table.set_cell_value(i, 5, datos['fxr'])
+            table.set_cell_value(i, 6, datos['valor_verdadero'])
+            table.set_cell_value(i, 7, datos['error_verdadero'])
+            table.set_cell_value(i, 8, datos['error_verdadero_porcentual'])
+            table.set_cell_value(i, 9, datos['error_aprox'])
+            table.set_cell_value(i, 10, datos['error_porcentual'])
+        
+        graficar_cerrados('x', funcion_expr, xi, xu, raiz)
+    except ValueError:
+        tk.messagebox.showwarning(title="Error", message="Ingresar Valores Válidos.")
