@@ -2,6 +2,7 @@ import tkinter as tk
 from biseccion import *
 from falsa_pocision import *
 from newton_raphson import *
+from regresion import *
 from secante import *
 from tkinter_custom_button import TkinterCustomButton
 
@@ -36,6 +37,10 @@ def newton_raphson():
 
 def secante():
     secante_method_window(root)
+
+def regresion():
+    regresion_window(root)
+    pass
 
 root = tk.Tk()
 root.title("Métodos Numericos")
@@ -89,7 +94,11 @@ bton_secante.pack(pady=5)
 # Label para Regresion
 frame_regresion = tk.Label(frame_regresion, text="Regresion")
 frame_regresion.pack(anchor=tk.NW)
-frame_regresion.configure(bg=color_fondo)  
+frame_regresion.configure(bg=color_fondo)
+
+# Boton para regresion
+bton_regresion = create_custom_button("Regresión", regresion, frame_regresion)
+bton_regresion.pack(pady=5)
 
 
 root.mainloop()
