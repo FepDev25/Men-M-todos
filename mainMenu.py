@@ -6,11 +6,14 @@ from falsa_pocision import *
 from newton_raphson import *
 from regresion import *
 from secante import *
+from Euler import *
+from EulerMejorado import *
+from RungeKuta import *
 
 def biseccion(frame):
     biseccion_method_window(frame)
 
-def falsa_posicion(frame):
+def falsa_posicion_m(frame):
     falsa_pocision_method_window(frame)
 
 def newton_raphson(frame):
@@ -21,6 +24,15 @@ def secante(frame):
 
 def regresion(frame):
     regresion_window(frame)
+
+def euler_normal(frame):
+    euler_method_window(frame)
+
+def euler_mejorado(frame):
+    euler_mejorado_method_window(frame)
+
+def runge_kuta_4(frame):
+    runge_kutta_window(frame)
 
 def limpiar_frame():
     for widget in framePrincipal.winfo_children():
@@ -62,7 +74,7 @@ def mostrar_ecuaciones_no_lineales():
     botonBiseccion = create_custom_button("Bisección", lambda: biseccion(frameCerrados), frameCerrados)
     botonBiseccion.pack(pady=5)
     
-    botonFalsePosicion = create_custom_button("Falsa Posición", lambda: falsa_pocision(frameCerrados), frameCerrados)
+    botonFalsePosicion = create_custom_button("Falsa Posición", lambda: falsa_posicion_m(frameCerrados), frameCerrados)
     botonFalsePosicion.pack(pady=5)
     
     # Frame para Métodos Abiertos
@@ -134,10 +146,10 @@ def mostrar_ecuaciones_diferenciales():
     labelEuler = ttk.Label(frameEueler, text="Métodos de Euler")
     labelEuler.pack(pady=5)
     
-    botonBiseccion = create_custom_button("Euler", lambda: print(""), frameEueler)
+    botonBiseccion = create_custom_button("Euler", lambda: euler_normal(frameEueler), frameEueler)
     botonBiseccion.pack(pady=5)
     
-    botonFalsePosicion = create_custom_button("Euler Mejorado", lambda: print(""), frameEueler)
+    botonFalsePosicion = create_custom_button("Euler Mejorado", lambda: euler_mejorado(frameEueler), frameEueler)
     botonFalsePosicion.pack(pady=5)
     
     # Frame para Métodos Abiertos
@@ -147,7 +159,7 @@ def mostrar_ecuaciones_diferenciales():
     labelFk = ttk.Label(frameRK, text="Runge Kuta")
     labelFk.pack(pady=5)
     
-    botonNewtonRaphson = create_custom_button("Runge Kuta 4to Orden", lambda: print(""), frameRK)
+    botonNewtonRaphson = create_custom_button("Runge Kuta 4to Orden", lambda: runge_kuta_4(frameRK), frameRK)
     botonNewtonRaphson.pack(pady=5)
 
 root = tk.Tk()
