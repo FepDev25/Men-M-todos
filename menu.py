@@ -40,7 +40,6 @@ def secante():
 
 def regresion():
     regresion_window(root)
-    pass
 
 root = tk.Tk()
 root.title("Métodos Numericos")
