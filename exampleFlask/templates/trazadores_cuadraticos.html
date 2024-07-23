@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Trazadores Cuadráticos</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/trazadores_cuadraticos.js') }}" defer></script>
+</head>
+<body>
+    
+    <form id="trazadoresCuadraticosForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Trazadores Cuadráticos</h3>
+
+        <label for="xi">Xi:</label><br>
+        <input class="controls" type="number" id="xi" name="xi"><br>
+        <label for="xu">Xu:</label><br>
+        <input class="controls" type="number" id="xu" name="xu"><br>
+        <label for="funcion">Función:</label><br>
+        <textarea class="controls" id="funcion" name="funcion"></textarea><br>
+        <label for="maxPasadas">Máximas Pasadas:</label><br>
+        <input class="controls" type="number" id="maxPasadas" name="maxPasadas"><br>
+        <label for="porcentajeAprox">Porcentaje Aproximación:</label><br>
+        <input class="controls" type="number" id="porcentajeAprox" name="porcentajeAprox"><br>
+        <label for="porcentajeVerdadero">Porcentaje Verdadero:</label><br>
+        <input class="controls" type="number" id="porcentajeVerdadero" name="porcentajeVerdadero"><br>
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Salida: <span id="mensaje"></span></p>
+        <p>Raíz: <span id="xr"></span></p>
+        <p>Iteraciones: <span id="iteraciones"></span></p>
+        <h3>Datos de Iteraciones:</h3>
+        <table id="tabla-resultados">
+            <thead>
+                <tr>
+                    <th>Xi</th>
+                    <th>Fx(i)</th>
+                    <th>Xu</th>
+                    <th>Fx(u)</th>
+                    <th>Valor Verdadero</th>
+                    <th>Error Verdadero</th>
+                    <th>Error Verdadero (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <img id="grafica">
+    </div>
+
+</body>
+</html>
