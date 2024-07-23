@@ -121,19 +121,9 @@ def mostrar_regresion():
     botonRegresion = create_custom_button("Regresión", lambda: regresion(frameRegresion), frameRegresion)
     botonRegresion.pack(pady=5)
 
-def mostrar_interpolacion():
-    limpiar_frame()
-    label = ttk.Label(framePrincipal, text="Contenido de Interpolación")
-    label.pack(padx=10, pady=10)
-
 def mostrar_diferenciacion_numerica():
     limpiar_frame()
     label = ttk.Label(framePrincipal, text="Contenido de Diferenciación Numérica")
-    label.pack(padx=10, pady=10)
-
-def mostrar_integracion_numerica():
-    limpiar_frame()
-    label = ttk.Label(framePrincipal, text="Contenido de Integración Numérica")
     label.pack(padx=10, pady=10)
 
 def mostrar_ecuaciones_diferenciales():
@@ -184,10 +174,8 @@ framePrincipal.pack(side=tk.TOP, expand=True, fill=tk.BOTH)
 botones = [
     ("Ecuaciones Lineales", mostrar_ecuaciones_lineales),
     ("Ecuaciones no Lineales", mostrar_ecuaciones_no_lineales),
-    ("Regresión", mostrar_regresion),
-    ("Interpolación", mostrar_interpolacion),
-    ("Diferenciación Numérica", mostrar_diferenciacion_numerica),
-    ("Integración Numérica", mostrar_integracion_numerica),
+    ("Regresion - Interpolacion", mostrar_regresion),
+    ("Difernciacion Numerica - Integracion Numerica", mostrar_diferenciacion_numerica),
     ("Ecuaciones Diferenciales", mostrar_ecuaciones_diferenciales)
 ]
 
@@ -196,3 +184,43 @@ for texto_boton, metodo in botones:
     boton.pack(side=tk.LEFT, padx=5, pady=5)
 
 root.mainloop()
+
+# Ecuaciones Lineales
+    # Gauss Simple
+    # Gauss Jordan
+    # Gaus Simple con pivote
+    # Gauss-seidel
+
+# Ecuaciones no Lineales
+    # Cerrados
+        # Biseccion
+        # Falsa pocision
+    # Abiertos
+        # Secante
+        # Newton Raphson
+
+# Regresion - Interpolacion
+    # Regresion
+        # Regresion Lineal - Polinomial
+    # Interpolacion
+        # Interpolacion de Lagrange
+        # Interpoacion Inversa
+    # Trazadores
+        # Trazadores Cuadraticos
+        # Trazadores Cubicos
+
+# Difernciacion Numerica - Integracion Numerica
+    # Derivadas
+        # Cuadratura de Gauss
+        # Diferenciacion numerica
+        # Extrapolacion de Richardson
+        # Derivadas de datos irregularmente espaciados
+    # Integrales
+        # Trapecio
+        # Simpson 1/3
+        # Simpson 3/8
+
+# Ecuaciones Diferenciales
+    # Euler
+    # Euler Mejorado
+    # Runge Kutta
