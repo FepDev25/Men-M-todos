@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, jsonify, send_from_directory
 from biseccion import *   
 from falsa_pocision import *  
-from trazadores_cuadraticos import * 
+from trazadores_cuadraticos import trazadores_cuadraticos
 import os
 
 app = Flask(__name__)
@@ -17,6 +17,10 @@ def biseccion_page():
 @app.route('/falsa_pocision.html')
 def falsa_posicion_page():
     return render_template('falsa_pocision.html')
+
+@app.route('/trazadores_cuadraticos.html')
+def trazadores_cuadraticos_page():
+    return render_template('trazadores_cuadraticos.html')
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
@@ -73,26 +77,26 @@ def api_falsa_pocision():
 @app.route('/api/trazadores_cuadraticos', methods=['POST'])
 def api_trazadores_cuadraticos():
     data = request.json
-    xi = data['xi']
-    xu = data['xu']
-    funcion = data['funcion']
-    max_pasadas = data['maxPasadas']
-    porcentaje_aprox = data['porcentajeAprox']
-    porcentaje_verdadero = data['porcentajeVerdadero']
+    xi = data.get('xi')
+    xu = data.get('xu')
+    funcion = data.get('funcion')
+    max_pasadas = data.get('maxPasadas')
+    porcentaje_aprox = data.get('porcentajeAprox')
+    porcentaje_verdadero = data.get('porcentajeVerdadero')
 
-    mensaje, xr, pasadas, datos_iteraciones, archivo_grafica = trazadores_cuadraticos(
+    mensaje, raiz, pasadas, datos_iteraciones, archivo_grafica = trazadores_cuadraticos(
         xi, xu, funcion, max_pasadas, porcentaje_aprox, porcentaje_verdadero
     )
     
     # Obtener solo el nombre del archivo y no la ruta completa
-    archivo_grafica_nombre = os.path.basename(archivo_grafica)
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
 
     return jsonify({
         'mensaje': mensaje,
-        'xr': xr,
+        'raiz': raiz,
         'pasadas': pasadas,
         'datos_iteraciones': datos_iteraciones,
-        'grafica': f'/static/{archivo_grafica_nombre}'
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
     })
 if __name__ == '__main__':
     app.run(debug=True)
