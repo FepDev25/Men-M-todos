@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, jsonify, send_from_directory
 from biseccion import *   
 from falsa_pocision import *  
+from trazadores_cuadraticos import * 
 import os
 
 app = Flask(__name__)
@@ -67,5 +68,32 @@ def api_falsa_pocision():
         'grafica': grafica
     })
 
+
+
+@app.route('/api/trazadores_cuadraticos', methods=['POST'])
+def api_trazadores_cuadraticos():
+    data = request.json
+    xi = data['xi']
+    xu = data['xu']
+    funcion = data['funcion']
+    max_pasadas = data['maxPasadas']
+    porcentaje_aprox = data['porcentajeAprox']
+    porcentaje_verdadero = data['porcentajeVerdadero']
+
+    mensaje, xr, pasadas, datos_iteraciones, archivo_grafica = trazadores_cuadraticos(
+        xi, xu, funcion, max_pasadas, porcentaje_aprox, porcentaje_verdadero
+    )
+    
+    # Obtener solo el nombre del archivo y no la ruta completa
+    archivo_grafica_nombre = os.path.basename(archivo_grafica)
+
+    return jsonify({
+        'mensaje': mensaje,
+        'xr': xr,
+        'pasadas': pasadas,
+        'datos_iteraciones': datos_iteraciones,
+        'grafica': f'/static/{archivo_grafica_nombre}'
+    })
 if __name__ == '__main__':
     app.run(debug=True)
+
