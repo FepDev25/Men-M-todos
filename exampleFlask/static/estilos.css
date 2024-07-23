@@ -27,7 +27,7 @@
 }
 
 .button:hover {
-    background-color: #6964F3; 
+    background-color: #807cf5; 
 }
 
 
@@ -102,6 +102,11 @@ padding: 12px;
 color: white;
 margin: 16px 0;
 font-size: 16px;
+}
+
+.botons:hover{
+    background: #5686ee;
+
 }
 
 

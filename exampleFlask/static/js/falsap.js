@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('biseccionForm').addEventListener('submit', function(event) {
+    document.getElementById('falsaposForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
         const xi = document.getElementById('xi').value.trim();
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             porcentajeVerdadero: porcentajeVerdaderoNum
         };
 
-        fetch('/api/biseccion', {
+        fetch('/api/falsa_pocision', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

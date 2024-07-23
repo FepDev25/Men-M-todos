@@ -2,12 +2,15 @@ import sympy as sp
 from scipy.optimize import root
 from graficas import *
 
+
+from graficas import graficar_cerrados
+
 def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verdadero):
     cifras_redondeo = 7
     xr = 0
     xr_ant = 0
     x = sp.Symbol('x')
-    funcion = sp.sympify(mi_funcion) 
+    funcion = sp.sympify(mi_funcion)
 
     pasadas = 1
     datos_iteraciones = []
@@ -37,7 +40,6 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verd
         error_verdadero = valor_verdadero - xr
         error_verdadero_porcentual = (error_verdadero / valor_verdadero) * 100
 
-        
         datos_iteraciones.append({
             'xi': float(round(xi, cifras_redondeo)),
             'fxi': float(round(fxi, cifras_redondeo)),
@@ -47,7 +49,7 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verd
             'fxr': float(round(fxr, cifras_redondeo)),
             'valor_verdadero': float(valor_verdadero),
             'error_verdadero': float(round(abs(error_verdadero), cifras_redondeo + 1)),
-            'error_verdadero_porcentual': float(round(abs(error_verdadero_porcentual), cifras_redondeo + 1)), 
+            'error_verdadero_porcentual': float(round(abs(error_verdadero_porcentual), cifras_redondeo + 1)),
             'error_aprox': float(round(abs(error_aprox), cifras_redondeo + 1)),
             'error_porcentual': float(round(abs(error_porcentual), cifras_redondeo + 1))
         })
@@ -58,18 +60,22 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verd
             xi = xr
         else:
             mensaje = f"Raiz Encontrada: {xi}"
-            return mensaje, xi, pasadas, datos_iteraciones
+            archivo_grafica = graficar_cerrados('x', funcion, xi, xu, xr)
+            return mensaje, xi, pasadas, datos_iteraciones, archivo_grafica
 
         if abs(error_verdadero_porcentual) <= porcentaje_verdadero:
             mensaje = f"Error verdadero alcanzado: {abs(error_verdadero_porcentual)}"
-            return mensaje, xi, pasadas, datos_iteraciones
+            archivo_grafica = graficar_cerrados('x', funcion, xi, xu, xr)
+            return mensaje, xi, pasadas, datos_iteraciones, archivo_grafica
 
         if pasadas > 1:
             if abs(error_porcentual) <= porcentaje_aprox:
                 mensaje = f"Error aproximado alcanzado: {abs(error_porcentual)}"
-                return mensaje, xi, pasadas, datos_iteraciones
+                archivo_grafica = graficar_cerrados('x', funcion, xi, xu, xr)
+                return mensaje, xi, pasadas, datos_iteraciones, archivo_grafica
 
         pasadas += 1
-
+    pasadas-=1
     mensaje = f"Iteraciones realizadas: {max_pasadas}"
-    return mensaje, xi, max_pasadas, datos_iteraciones
+    archivo_grafica = graficar_cerrados('x', funcion, xi, xu, xr)
+    return mensaje, xi, pasadas, datos_iteraciones, archivo_grafica
