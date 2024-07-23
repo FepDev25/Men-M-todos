@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Trazadores Cúbicos</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/trazadores_cubicos.js') }}" defer></script>
+</head>
+<body>
+    
+    <form id="trazadoresCubicosForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Trazadores Cúbicos</h3>
+
+        <label for="xi">Xi:</label><br>
+        <input class="controls" type="number" id="xi" name="xi"><br>
+        <label for="xu">Xu:</label><br>
+        <input class="controls" type="number" id="xu" name="xu"><br>
+        <label for="funcion">Función:</label><br>
+        <textarea class="controls" id="funcion" name="funcion"></textarea><br>
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Salida: <span id="mensaje"></span></p>
+        <h3>Datos de Iteraciones:</h3>
+        <table id="tabla-resultados">
+            <thead>
+                <tr>
+                    <th>Xi</th>
+                    <th>Fx(i)</th>
+                    <th>Xu</th>
+                    <th>Fx(u)</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <img id="grafica">
+    </div>
+
+</body>
+</html>
