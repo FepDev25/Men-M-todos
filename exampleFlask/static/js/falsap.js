@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             const graficaImg = document.getElementById('grafica');
-            graficaImg.src = '/static/grafica.png?t=' + new Date().getTime();
+            graficaImg.src = '/static/static/grafica.png?t=' + new Date().getTime();
             graficaImg.style.display = 'block'; 
         })
         .catch(error => console.error('Error:', error));

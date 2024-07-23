@@ -7,8 +7,13 @@ import sympy as sp
 import os
 
 def graficar_cerrados(simbolo, mi_funcion, rango_izq, rango_der, raiz):
-    rango_izq = float(rango_izq - 10)
-    rango_der= float(rango_der+10)
+    rango_izq = float(rango_izq)
+    rango_der = float(rango_der)
+    raiz = float(raiz)
+    
+    rango_izq -= 10
+    rango_der += 10
+
     x = sp.Symbol(simbolo)
     funcion = sp.sympify(mi_funcion)
 
@@ -26,14 +31,19 @@ def graficar_cerrados(simbolo, mi_funcion, rango_izq, rango_der, raiz):
     ax.grid(True)
     ax.legend()
 
-    archivo_grafica = 'static/grafica.png'
+    # Definir la ruta del archivo correctamente
+    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
+    archivo_grafica = os.path.join(directorio_static, 'grafica.png')
 
+    # Eliminar el archivo si ya existe
     if os.path.exists(archivo_grafica):
         os.remove(archivo_grafica)
-        
-    if not os.path.exists('static'):
-        os.makedirs('static')
+    
+    # Crear el directorio si no existe
+    if not os.path.exists(directorio_static):
+        os.makedirs(directorio_static)
 
+    # Guardar la gráfica en un archivo
     plt.savefig(archivo_grafica)
     plt.close(fig)
 

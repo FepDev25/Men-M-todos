@@ -2,7 +2,6 @@ import sympy as sp
 from scipy.optimize import root
 from graficas import *
 
-
 from graficas import graficar_cerrados
 
 def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verdadero):
@@ -31,14 +30,32 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verd
         fxu = funcion.subs(x, xu)
         fxr = funcion.subs(x, xr)
 
+        if abs(xr) < 1e-10:  # Evitar divisiones por cantidades muy pequeñas
+            mensaje = "xr es demasiado pequeño, lo que podría llevar a una división por un número muy pequeño."
+            return mensaje, None, pasadas, datos_iteraciones, None
+        
+        if fxr == 0:  # Evitar divisiones por cero
+            mensaje = f"Raiz Encontrada: {xr}"
+            archivo_grafica = graficar_cerrados('x', funcion, xi, xu, xr)
+            return mensaje, xr, pasadas, datos_iteraciones, archivo_grafica
+
         fxi_x_fxr = fxi * fxr
 
         if pasadas > 1:
             error_aprox = xr - xr_ant
-            error_porcentual = (error_aprox / xr) * 100
+            if abs(xr) > 1e-10:  # Evitar divisiones por cantidades muy pequeñas
+                error_porcentual = (error_aprox / xr) * 100
+            else:
+                mensaje = "xr es demasiado pequeño, lo que podría llevar a una división por un número muy pequeño."
+                archivo_grafica = graficar_cerrados('x', funcion, xi, xu, xr)
+                return mensaje, xi, pasadas, datos_iteraciones, archivo_grafica
 
         error_verdadero = valor_verdadero - xr
-        error_verdadero_porcentual = (error_verdadero / valor_verdadero) * 100
+        if abs(valor_verdadero) > 1e-10:  # Evitar divisiones por cantidades muy pequeñas
+            error_verdadero_porcentual = (error_verdadero / valor_verdadero) * 100
+        else:
+            mensaje = "El valor verdadero es demasiado pequeño, lo que podría llevar a una división por un número muy pequeño."
+            return mensaje, None, pasadas, datos_iteraciones, None
 
         datos_iteraciones.append({
             'xi': float(round(xi, cifras_redondeo)),
@@ -75,7 +92,7 @@ def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verd
                 return mensaje, xi, pasadas, datos_iteraciones, archivo_grafica
 
         pasadas += 1
-    pasadas-=1
+
     mensaje = f"Iteraciones realizadas: {max_pasadas}"
     archivo_grafica = graficar_cerrados('x', funcion, xi, xu, xr)
-    return mensaje, xi, pasadas, datos_iteraciones, archivo_grafica
+    return mensaje, xi, max_pasadas, datos_iteraciones, archivo_grafica
