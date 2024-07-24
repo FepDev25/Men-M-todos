@@ -1,52 +1,50 @@
-import sympy as sp
-from scipy.interpolate import interp1d
 import numpy as np
+from scipy.interpolate import CubicSpline
+from graficas import graficar_trazadores_cuadraticos
 
-import matplotlib.pyplot as plt
+def calcular_trazadores_cuadraticos(x_data, y_data):
+    x_data = np.array(x_data, dtype=float)
+    y_data = np.array(y_data, dtype=float)
 
-def trazadores_cuadraticos(xi, xu, mi_funcion, max_pasadas, porcentaje_aproximado, porcentaje_verdadero):
-    cifras_redondeo = 7
-    x = sp.Symbol('x')
-    funcion = sp.sympify(mi_funcion)
+    # Verificación de datos de entrada
+    if len(x_data) != len(y_data):
+        raise ValueError("Los datos de X e Y deben tener la misma longitud.")
+    
+    if len(x_data) < 3:
+        raise ValueError("Se necesitan al menos 3 puntos para calcular los trazadores cuadráticos.")
 
-    x_puntos = np.linspace(xi, xu, 10)
-    y_puntos = [funcion.subs(x, punto) for punto in x_puntos]
+    # Cálculo de los trazadores cuadráticos
+    splines = []
+    n = len(x_data) - 1
+    a = y_data[:-1]
+    h = np.diff(x_data)
 
-    interpolacion = interp1d(x_puntos, y_puntos, kind='quadratic')
+    # Sistema de ecuaciones para obtener c
+    A = np.zeros((n+1, n+1))
+    b = np.zeros(n+1)
 
-    datos_iteraciones = []
-    valor_verdadero = y_puntos[-1]
+    A[0, 0] = 1
+    A[n, n] = 1
 
-    for i in range(len(x_puntos) - 1):
-        xi = x_puntos[i]
-        xu = x_puntos[i + 1]
-        fx = interpolacion([xi, xu])
+    for i in range(1, n):
+        A[i, i-1] = h[i-1]
+        A[i, i] = 2 * (h[i-1] + h[i])
+        A[i, i+1] = h[i]
+        b[i] = 3 * ((y_data[i+1] - y_data[i]) / h[i] - (y_data[i] - y_data[i-1]) / h[i-1])
 
-        error_verdadero = valor_verdadero - fx[1]
-        error_verdadero_porcentual = (error_verdadero / valor_verdadero) * 100 if valor_verdadero != 0 else 0
+    c = np.linalg.solve(A, b)
 
-        datos_iteraciones.append({
-            'xi': float(round(xi, cifras_redondeo)),
-            'fxi': float(round(fx[0], cifras_redondeo)),
-            'xu': float(round(xu, cifras_redondeo)),
-            'fxu': float(round(fx[1], cifras_redondeo)),
-            'valor_verdadero': float(valor_verdadero),
-            'error_verdadero': float(round(abs(error_verdadero), cifras_redondeo + 1)),
-            'error_verdadero_porcentual': float(round(abs(error_verdadero_porcentual), cifras_redondeo + 1))
+    for i in range(n):
+        b_i = (y_data[i+1] - y_data[i]) / h[i] - h[i] * (c[i+1] + 2 * c[i]) / 3
+        d_i = (c[i+1] - c[i]) / (3 * h[i])
+        splines.append({
+            'a': a[i],
+            'b': b_i,
+            'c': c[i],
+            'x0': x_data[i]
         })
 
-    # Generar la gráfica
-    plt.figure()
-    plt.plot(x_puntos, y_puntos, 'o', label='Datos')
-    plt.plot(x_puntos, interpolacion(x_puntos), '-', label='Trazador Cuadrático')
-    plt.legend()
-    plt.xlabel('x')
-    plt.ylabel('f(x)')
-    plt.title('Trazadores Cuadráticos')
+    grafica = graficar_trazadores_cuadraticos(x_data, y_data, splines)
+    mensaje = "Cálculo de trazadores cuadráticos completado exitosamente."
 
-    # Guardar la gráfica en el directorio static
-    grafica_path = 'static/trazador_cuadratico.png'
-    plt.savefig(grafica_path)
-    plt.close()
-
-    return "Cálculo completado", xi, len(x_puntos) - 1, datos_iteraciones, grafica_path
+    return mensaje, splines, grafica
