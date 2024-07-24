@@ -155,3 +155,42 @@ def graficar_edos(xs, ys_numericos, ys_analiticos):
     plt.close(fig)
 
     return archivo_grafica
+
+# Método de gráfica para trazadores cuadráticos
+def graficar_trazadores_cuadraticos(x_data, y_data, splines):
+    fig, ax = plt.subplots()
+    ax.scatter(x_data, y_data, color='red', label='Datos')
+    
+    x_vals = np.linspace(min(x_data), max(x_data), 1000)
+    y_vals = np.zeros_like(x_vals)
+    
+    for spline in splines:
+        a = spline['a']
+        b = spline['b']
+        c = spline['c']
+        x0 = spline['x0']
+        
+        for i in range(len(x_vals)):
+            if x_vals[i] >= x0:
+                y_vals[i] = a + b * (x_vals[i] - x0) + c * (x_vals[i] - x0) ** 2
+    
+    ax.plot(x_vals, y_vals, label='Trazador Cuadrático')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('Trazadores Cuadráticos')
+    ax.legend()
+    ax.grid(True)
+    
+    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
+    archivo_grafica = os.path.join(directorio_static, 'grafica_trazadores_cuadraticos.png')
+
+    if os.path.exists(archivo_grafica):
+        os.remove(archivo_grafica)
+    
+    if not os.path.exists(directorio_static):
+        os.makedirs(directorio_static)
+
+    plt.savefig(archivo_grafica)
+    plt.close(fig)
+    
+    return archivo_grafica
