@@ -110,7 +110,6 @@ def api_trazadores_cuadraticos():
         'splines': splines,
         'grafica': grafica
     })
-
 @app.route('/api/secante', methods=['POST'])
 def api_secante():
     data = request.json
