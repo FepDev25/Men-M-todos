@@ -1,48 +1,56 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById('trazadoresCuadraticosForm');
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('trazadoresCuadraticosForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const xi = document.getElementById('xi').value;
-        const xu = document.getElementById('xu').value;
-        const funcion = document.getElementById('funcion').value;
-        const maxPasadas = document.getElementById('maxPasadas').value;
-        const porcentajeAprox = document.getElementById('porcentajeAprox').value;
-        const porcentajeVerdadero = document.getElementById('porcentajeVerdadero').value;
+        const xData = document.getElementById('x_data').value.trim();
+        const yData = document.getElementById('y_data').value.trim();
 
-        const response = await fetch('/trazadores_cuadraticos', {
+        if (!xData || !yData) {
+            alert('Por favor, complete todos los campos.');
+            return;
+        }
+
+        const xDataArray = xData.split(',').map(Number);
+        const yDataArray = yData.split(',').map(Number);
+
+        if (xDataArray.length !== yDataArray.length) {
+            alert('Los datos de X e Y deben tener la misma longitud.');
+            return;
+        }
+
+        const data = {
+            x_data: xDataArray,
+            y_data: yDataArray
+        };
+
+        fetch('/api/trazadores_cuadraticos', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                xi: parseFloat(xi),
-                xu: parseFloat(xu),
-                funcion: funcion,
-                max_pasadas: parseInt(maxPasadas),
-                porcentaje_aprox: parseFloat(porcentajeAprox),
-                porcentaje_verdadero: parseFloat(porcentajeVerdadero),
-            }),
-        });
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            const resultadosDiv = document.getElementById('resultados');
+            const tablaResultados = document.getElementById('tabla-resultados').getElementsByTagName('tbody')[0];
 
-        const result = await response.json();
-        
-        document.getElementById('mensaje').innerText = result.mensaje;
-        document.getElementById('raiz').innerText = result.xr;
-        document.getElementById('iteraciones').innerText = result.pasadas;
+            resultadosDiv.querySelector('#mensaje').textContent = result.mensaje;
 
-        const tablaResultados = document.getElementById('tabla-resultados').getElementsByTagName('tbody')[0];
-        tablaResultados.innerHTML = '';
-        
-        result.datos_iteraciones.forEach(iteracion => {
-            const row = tablaResultados.insertRow();
-            Object.values(iteracion).forEach(val => {
-                const cell = row.insertCell();
-                cell.innerText = val;
+            tablaResultados.innerHTML = '';
+
+            result.splines.forEach(spline => {
+                const row = tablaResultados.insertRow();
+                row.insertCell(0).textContent = spline.a;
+                row.insertCell(1).textContent = spline.b;
+                row.insertCell(2).textContent = spline.c;
+                row.insertCell(3).textContent = spline.x0;
             });
-        });
 
-        document.getElementById('grafica').src = result.grafica;
+            const graficaImg = document.getElementById('grafica');
+            graficaImg.src = result.grafica + '?t=' + new Date().getTime();
+            graficaImg.style.display = 'block';
+        })
+        .catch(error => console.error('Error:', error));
     });
 });
