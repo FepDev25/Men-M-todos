@@ -6,7 +6,7 @@ from newton_raphson import newton_raphson
 from Euler import *
 from EulerMejorado import euler_mejorado 
 from RungeKuta import *
-from trazadores_cuadraticos import trazadores_cuadraticos
+from trazadores_cuadraticos import *
 import os
 
 app = Flask(__name__)
