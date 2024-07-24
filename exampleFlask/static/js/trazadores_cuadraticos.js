@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             const graficaImg = document.getElementById('grafica');
-            graficaImg.src = result.grafica + '?t=' + new Date().getTime();
-            graficaImg.style.display = 'block';
+            graficaImg.src = '/static/grafica_trazadores_cuadraticos.png?t=' + new Date().getTime();
+            graficaImg.style.display = 'block'; 
         })
         .catch(error => console.error('Error:', error));
     });
