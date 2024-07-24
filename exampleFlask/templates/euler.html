@@ -11,38 +11,38 @@
     <form id="eulerForm" class="form-register">
         <h3 class="titulosMetodos">Método de Euler</h3>
 
-        <label for="ecuacion">Ecuación diferencial:</label><br>
+        <label for="ecuacion">Ecuación Diferencial:</label><br>
         <textarea class="controls" id="ecuacion" name="ecuacion"></textarea><br>
-        <label for="x0">Valor inicial x0:</label><br>
-        <input class="controls" type="number" id="x0" name="x0" step="any"><br>
-        <label for="y0">Valor inicial y0:</label><br>
-        <input class="controls" type="number" id="y0" name="y0" step="any"><br>
-        <label for="incog">Valor de incógnita (x):</label><br>
-        <input class="controls" type="number" id="incog" name="incog" step="any"><br>
-        <label for="h">Paso h:</label><br>
-        <input class="controls" type="number" id="h" name="h" step="any"><br>
+        <label for="x0">X0:</label><br>
+        <input class="controls" type="number" step="any" id="x0" name="x0"><br>
+        <label for="y0">Y0:</label><br>
+        <input class="controls" type="number" step="any" id="y0" name="y0"><br>
+        <label for="incog">Incógnita (X final):</label><br>
+        <input class="controls" type="number" step="any" id="incog" name="incog"><br>
+        <label for="h">Paso (h):</label><br>
+        <input class="controls" type="number" step="any" id="h" name="h"><br>
         <button class="botons" type="submit">Calcular</button>
     </form>
 
     <div id="resultados">
         <p>Resultado del cálculo:</p>
+        <p>Salida: <span id="mensaje"></span></p>
         <h3>Datos de Iteraciones:</h3>
         <table id="tabla-resultados">
             <thead>
                 <tr>
-                    <th>xi</th>
-                    <th>yi</th>
+                    <th>Xi</th>
+                    <th>Yi</th>
                     <th>Yi+1</th>
-                    <th>y analítica</th>
-                    <th>error</th>
+                    <th>Y Analítica</th>
+                    <th>Error</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
 
-        <h3>Gráfica:</h3>
-        <img id="grafica" alt="Gráfica del método de Euler">
+        <img id="grafica">
     </div>
 
 </body>

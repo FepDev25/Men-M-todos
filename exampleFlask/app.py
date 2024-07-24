@@ -3,6 +3,8 @@ from biseccion import *
 from falsa_pocision import *  
 from secante import *
 from newton_raphson import newton_raphson
+from Euler import *
+from EulerMejorado import euler_mejorado 
 from trazadores_cuadraticos import trazadores_cuadraticos
 import os
 
@@ -35,6 +37,14 @@ def secante_page():
 @app.route('/newton.html')
 def newton_page():
     return render_template('newton.html')
+
+@app.route('/euler.html')
+def euler_page():
+    return render_template('euler.html')
+
+@app.route('/euler_mejorado.html')
+def euler_mejorado_page():
+    return render_template('euler_mejorado.html')
 
 @app.route('/api/biseccion', methods=['POST'])
 def api_biseccion():
@@ -157,6 +167,49 @@ def api_newton_raphson():
         'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
     })
 
+@app.route('/api/euler', methods=['POST'])
+def api_euler():
+    data = request.json
+    ecuacion = data.get('ecuacion')
+    x0 = data.get('x0')
+    y0 = data.get('y0')
+    incog = data.get('incog')
+    h = data.get('h')
+
+    mensaje, datos_iteraciones, archivo_grafica = eulerMetodo(
+        ecuacion, x0, y0, incog, h
+    )
+
+    # Obtener solo el nombre del archivo y no la ruta completa
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
+
+    return jsonify({
+        'mensaje': mensaje,
+        'datos_iteraciones': datos_iteraciones,
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+    })
+
+@app.route('/api/euler_mejorado', methods=['POST'])
+def api_euler_mejorado():
+    data = request.json
+    ecuacion = data.get('ecuacion')
+    x0 = data.get('x0')
+    y0 = data.get('y0')
+    incog = data.get('incog')
+    h = data.get('h')
+
+    mensaje, datos_iteraciones, archivo_grafica = euler_mejorado(
+        ecuacion, x0, y0, incog, h
+    )
+
+    # Obtener solo el nombre del archivo y no la ruta completa
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
+
+    return jsonify({
+        'mensaje': mensaje,
+        'datos_iteraciones': datos_iteraciones,
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)

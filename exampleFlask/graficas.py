@@ -88,3 +88,37 @@ def graficar_abiertos(simbolo, mi_funcion, rango, raiz):
     plt.close(fig)
 
     return archivo_grafica
+
+
+def graficar_euler(xs, ys_numericos, ys_analiticos):
+    fig, ax = plt.subplots()
+    ax.plot(xs, ys_numericos, label='Solución Numérica', marker='o')
+    ax.plot(xs, ys_analiticos, label='Solución Analítica', linestyle='--')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('Comparación Solución Numérica vs. Analítica')
+    ax.grid(True)
+    ax.legend()
+
+    # Definir la ruta del archivo correctamente
+    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
+    archivo_grafica = os.path.join(directorio_static, 'grafica_euler.png')
+
+    # Eliminar el archivo si ya existe
+    if os.path.exists(archivo_grafica):
+        os.remove(archivo_grafica)
+    
+    # Crear el directorio si no existe
+    if not os.path.exists(directorio_static):
+        os.makedirs(directorio_static)
+
+    # Guardar la gráfica en un archivo
+    plt.savefig(archivo_grafica)
+    plt.close(fig)
+
+    return archivo_grafica
+
+grafica = graficar_euler([1,2,3,4,5,6,7], [1,2,3,4,5,6,7], [1.1,2,3.5,4,5.5,6.6,7])
+print(grafica)
+if os.path.exists(grafica):
+    print("existe")
