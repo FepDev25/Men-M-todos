@@ -5,6 +5,9 @@ from graficas import *
 from graficas import graficar_cerrados
 
 def biseccion(xi, xu, mi_funcion, max_pasadas, porcentaje_aprox, porcentaje_verdadero):
+    porcentaje_aprox = porcentaje_aprox / 100
+    porcentaje_verdadero = porcentaje_verdadero / 100
+
     cifras_redondeo = 7
     xr = 0
     xr_ant = 0

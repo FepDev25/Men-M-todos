@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, jsonify, send_from_directory
 from biseccion import *   
 from falsa_pocision import *  
+from secante import *
+from newton_raphson import newton_raphson
 from trazadores_cuadraticos import trazadores_cuadraticos
 import os
 
@@ -25,6 +27,14 @@ def trazadores_cuadraticos_page():
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static', filename)
+
+@app.route('/secante.html')
+def secante_page():
+    return render_template('secante.html')
+
+@app.route('/newton.html')
+def newton_page():
+    return render_template('newton.html')
 
 @app.route('/api/biseccion', methods=['POST'])
 def api_biseccion():
@@ -98,6 +108,56 @@ def api_trazadores_cuadraticos():
         'datos_iteraciones': datos_iteraciones,
         'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
     })
+
+@app.route('/api/secante', methods=['POST'])
+def api_secante():
+    data = request.json
+    x0 = data.get('x0')
+    x1 = data.get('x1')
+    funcion = data.get('funcion')
+    max_iteraciones = data.get('maxIteraciones')
+    error_aprox = data.get('errorAprox')
+    error_verdadero = data.get('errorVerdadero')
+
+    mensaje, raiz, iteraciones, datos_iteraciones, archivo_grafica = secante(
+        funcion, x0, x1, max_iteraciones, error_aprox, error_verdadero
+    )
+    
+    # Obtener solo el nombre del archivo y no la ruta completa
+    archivo_grafica_nombre = os.path.basename(archivo_grafica)
+
+    return jsonify({
+        'mensaje': mensaje,
+        'raiz': raiz,
+        'iteraciones': iteraciones,
+        'datos_iteraciones': datos_iteraciones,
+        'grafica': f'/static/{archivo_grafica_nombre}'
+    })
+
+@app.route('/api/newton_raphson', methods=['POST'])
+def api_newton_raphson():
+    data = request.json
+    x_inicial = data.get('xInicial')
+    funcion = data.get('funcion')
+    limite_iteraciones = data.get('limiteIteraciones')
+    valor_error_aproximado = data.get('valorErrorAproximado')
+    valor_error_verdadero = data.get('valorErrorVerdadero')
+
+    mensaje, raiz, pasadas, datos_iteraciones, archivo_grafica = newton_raphson(
+        funcion, limite_iteraciones, x_inicial, valor_error_aproximado, valor_error_verdadero
+    )
+    
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
+
+    return jsonify({
+        'mensaje': mensaje,
+        'raiz': raiz,
+        'pasadas': pasadas,
+        'datos_iteraciones': datos_iteraciones,
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+    })
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 

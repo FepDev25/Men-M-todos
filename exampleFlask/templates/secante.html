@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de la Secante</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/secante.js') }}" defer></script>
+</head>
+<body>
+    <form id="secanteForm" class="form-register">
+        <h3 class="titulosMetodos">Método de la Secante</h3>
+
+        <label for="x0">X0:</label><br>
+        <input class="controls" type="number" id="x0" name="x0"><br>
+        <label for="x1">X1:</label><br>
+        <input class="controls" type="number" id="x1" name="x1"><br>
+        <label for="funcion">Función:</label><br>
+        <textarea class="controls" id="funcion" name="funcion"></textarea><br>
+        <label for="maxIteraciones">Máximo de Iteraciones:</label><br>
+        <input class="controls" type="number" id="maxIteraciones" name="maxIteraciones"><br>
+        <label for="errorAprox">Error de Aproximación (%)</label><br>
+        <input class="controls" type="number" id="errorAprox" name="errorAprox"><br>
+        <label for="errorVerdadero">Error Verdadero (%)</label><br>
+        <input class="controls" type="number" id="errorVerdadero" name="errorVerdadero"><br>
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Salida: <span id="mensaje"></span></p>
+        <p>Raíz: <span id="raiz"></span></p>
+        <p>Iteraciones: <span id="iteraciones"></span></p>
+        <h3>Datos de Iteraciones:</h3>
+        <table id="tabla-resultados">
+            <thead>
+                <tr>
+                    <th>X0</th>
+                    <th>Fx0</th>
+                    <th>X1</th>
+                    <th>Fx1</th>
+                    <th>Xi</th>
+                    <th>Valor Verdadero</th>
+                    <th>Error Verdadero</th>
+                    <th>Error Verdadero (%)</th>
+                    <th>Error Aproximado</th>
+                    <th>Error Aproximado (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <img id="grafica">
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Newton-Raphson</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/newton.js') }}" defer></script>
+</head>
+<body>
+    
+    <form id="newtonRaphsonForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Newton-Raphson</h3>
+
+        <label for="xInicial">X Inicial:</label><br>
+        <input class="controls" type="number" id="xInicial" name="xInicial"><br>
+        <label for="funcion">Función:</label><br>
+        <textarea class="controls" id="funcion" name="funcion"></textarea><br>
+        <label for="limiteIteraciones">Límite de Iteraciones:</label><br>
+        <input class="controls" type="number" id="limiteIteraciones" name="limiteIteraciones"><br>
+        <label for="valorErrorAproximado">Valor de Error Aproximado (%):</label><br>
+        <input class="controls" type="number" id="valorErrorAproximado" name="valorErrorAproximado"><br>
+        <label for="valorErrorVerdadero">Valor de Error Verdadero (%):</label><br>
+        <input class="controls" type="number" id="valorErrorVerdadero" name="valorErrorVerdadero"><br>
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Salida: <span id="mensaje"></span></p>
+        <p>Raíz: <span id="raiz"></span></p>
+        <p>Iteraciones: <span id="iteraciones"></span></p>
+        <h3>Datos de Iteraciones:</h3>
+        <table id="tabla-resultados">
+            <thead>
+                <tr>
+                    <th>Xi</th>
+                    <th>Xi+1</th>
+                    <th>Valor Verdadero</th>
+                    <th>Error Verdadero</th>
+                    <th>Error Verdadero (%)</th>
+                    <th>Error Aproximado</th>
+                    <th>Error Aproximado (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <img id="grafica">
+    </div>
+
+</body>
+</html>
