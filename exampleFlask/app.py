@@ -6,7 +6,7 @@ from newton_raphson import newton_raphson
 from Euler import *
 from EulerMejorado import euler_mejorado 
 from RungeKuta import *
-from trazadores_cuadraticos import trazadores_cuadraticos
+from trazadores_cuadraticos import *
 import os
 
 app = Flask(__name__)
@@ -101,29 +101,15 @@ def api_falsa_pocision():
 
 @app.route('/api/trazadores_cuadraticos', methods=['POST'])
 def api_trazadores_cuadraticos():
-    data = request.json
-    xi = data.get('xi')
-    xu = data.get('xu')
-    funcion = data.get('funcion')
-    max_pasadas = data.get('maxPasadas')
-    porcentaje_aprox = data.get('porcentajeAprox')
-    porcentaje_verdadero = data.get('porcentajeVerdadero')
-
-    mensaje, raiz, pasadas, datos_iteraciones, archivo_grafica = trazadores_cuadraticos(
-        xi, xu, funcion, max_pasadas, porcentaje_aprox, porcentaje_verdadero
-    )
-    
-    # Obtener solo el nombre del archivo y no la ruta completa
-    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
-
+    datos = request.json
+    x_data = datos['x_data']
+    y_data = datos['y_data']
+    mensaje, splines, grafica = calcular_trazadores_cuadraticos(x_data, y_data)
     return jsonify({
         'mensaje': mensaje,
-        'raiz': raiz,
-        'pasadas': pasadas,
-        'datos_iteraciones': datos_iteraciones,
-        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+        'splines': splines,
+        'grafica': grafica
     })
-
 @app.route('/api/secante', methods=['POST'])
 def api_secante():
     data = request.json
