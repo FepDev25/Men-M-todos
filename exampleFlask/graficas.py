@@ -90,7 +90,7 @@ def graficar_abiertos(simbolo, mi_funcion, rango, raiz):
     return archivo_grafica
 
 
-def graficar_euler(xs, ys_numericos, ys_analiticos):
+def graficar_edos(xs, ys_numericos, ys_analiticos):
     fig, ax = plt.subplots()
     ax.plot(xs, ys_numericos, label='Solución Numérica', marker='o')
     ax.plot(xs, ys_analiticos, label='Solución Analítica', linestyle='--')
@@ -117,8 +117,3 @@ def graficar_euler(xs, ys_numericos, ys_analiticos):
     plt.close(fig)
 
     return archivo_grafica
-
-grafica = graficar_euler([1,2,3,4,5,6,7], [1,2,3,4,5,6,7], [1.1,2,3.5,4,5.5,6.6,7])
-print(grafica)
-if os.path.exists(grafica):
-    print("existe")

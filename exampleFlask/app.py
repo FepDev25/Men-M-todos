@@ -5,6 +5,7 @@ from secante import *
 from newton_raphson import newton_raphson
 from Euler import *
 from EulerMejorado import euler_mejorado 
+from RungeKuta import *
 from trazadores_cuadraticos import trazadores_cuadraticos
 import os
 
@@ -45,6 +46,10 @@ def euler_page():
 @app.route('/euler_mejorado.html')
 def euler_mejorado_page():
     return render_template('euler_mejorado.html')
+
+@app.route('/runge_kutta.html')
+def runge_kutta_page():
+    return render_template('runge_kutta.html')
 
 @app.route('/api/biseccion', methods=['POST'])
 def api_biseccion():
@@ -203,6 +208,27 @@ def api_euler_mejorado():
     )
 
     # Obtener solo el nombre del archivo y no la ruta completa
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
+
+    return jsonify({
+        'mensaje': mensaje,
+        'datos_iteraciones': datos_iteraciones,
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+    })
+
+@app.route('/api/runge-kutta', methods=['POST'])
+def api_runge_kutta():
+    data = request.json
+    ecuacion = data.get('ecuacion')
+    x0 = data.get('x0')
+    y0 = data.get('y0')
+    incog = data.get('incog')
+    h = data.get('h')
+
+    mensaje, datos_iteraciones, archivo_grafica = rungeKuta(
+        ecuacion, x0, y0, incog, h
+    )
+
     archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
 
     return jsonify({

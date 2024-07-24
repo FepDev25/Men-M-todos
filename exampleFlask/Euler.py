@@ -54,7 +54,7 @@ def eulerMetodo(ecuacion, x0, y0, incog, h):
         xi = round(xi + h, 2)
         yi = Yi1
 
-    grafica = graficar_euler(xs, ys_numericos, ys_analiticos)
+    grafica = graficar_edos(xs, ys_numericos, ys_analiticos)
     mensaje = f"Valor estimado en {incog}: {yi}"
     return mensaje, datos_iteraciones, grafica
 

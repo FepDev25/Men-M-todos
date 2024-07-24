@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Runge-Kutta</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/runge-kutta.js') }}" defer></script>
+</head>
+<body>
+    <form id="rungeKuttaForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Runge-Kutta</h3>
+
+        <label for="ecuacion">Ecuación Diferencial:</label><br>
+        <textarea class="controls" id="ecuacion" name="ecuacion"></textarea><br>
+        <label for="x0">X0:</label><br>
+        <input class="controls" type="number" step="any" id="x0" name="x0"><br>
+        <label for="y0">Y0:</label><br>
+        <input class="controls" type="number" step="any" id="y0" name="y0"><br>
+        <label for="incog">Incógnita (X final):</label><br>
+        <input class="controls" type="number" step="any" id="incog" name="incog"><br>
+        <label for="h">Paso (h):</label><br>
+        <input class="controls" type="number" step="any" id="h" name="h"><br>
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Salida: <span id="mensaje"></span></p>
+        <h3>Datos de Iteraciones:</h3>
+        <table id="tabla-resultados">
+            <thead>
+                <tr>
+                    <th>Xi</th>
+                    <th>Yi</th>
+                    <th>K1</th>
+                    <th>K2</th>
+                    <th>K3</th>
+                    <th>K4</th>
+                    <th>Yi+1</th>
+                    <th>Y Analítica</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <img id="grafica" style="display:none;">
+    </div>
+
+</body>
+</html>
