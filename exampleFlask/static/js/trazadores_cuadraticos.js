@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById('trazadoresForm');
+    const form = document.getElementById('trazadoresCuadraticosForm');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
