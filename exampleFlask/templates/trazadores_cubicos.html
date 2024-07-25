@@ -2,43 +2,40 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Método de Trazadores Cúbicos</title>
+    <title>Trazadores Cúbicos</title>
     <link rel="stylesheet" href="../static/estilos.css">
     <script src="{{ url_for('static', filename='js/trazadores_cubicos.js') }}" defer></script>
 </head>
 <body>
-    
     <form id="trazadoresCubicosForm" class="form-register">
-        <h3 class="titulosMetodos">Método de Trazadores Cúbicos</h3>
+        <h3 class="titulosMetodos">Trazadores Cúbicos</h3>
 
-        <label for="xi">Xi:</label><br>
-        <input class="controls" type="number" id="xi" name="xi"><br>
-        <label for="xu">Xu:</label><br>
-        <input class="controls" type="number" id="xu" name="xu"><br>
-        <label for="funcion">Función:</label><br>
-        <textarea class="controls" id="funcion" name="funcion"></textarea><br>
+        <label for="x_data">Datos de X (separados por comas):</label><br>
+        <textarea class="controls" id="x_data" name="x_data"></textarea><br>
+        <label for="y_data">Datos de Y (separados por comas):</label><br>
+        <textarea class="controls" id="y_data" name="y_data"></textarea><br>
         <button class="botons" type="submit">Calcular</button>
     </form>
 
     <div id="resultados">
         <p>Resultado del cálculo:</p>
         <p>Salida: <span id="mensaje"></span></p>
-        <h3>Datos de Iteraciones:</h3>
+        <h3>Coeficientes de los Trazadores:</h3>
         <table id="tabla-resultados">
             <thead>
                 <tr>
-                    <th>Xi</th>
-                    <th>Fx(i)</th>
-                    <th>Xu</th>
-                    <th>Fx(u)</th>
+                    <th>a</th>
+                    <th>b</th>
+                    <th>c</th>
+                    <th>d</th>
+                    <th>x0</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
 
-        <img id="grafica">
+        <img id="grafica" src="{{ url_for('static', filename='grafica_trazadores_cubicos.png') }}" alt="Gráfica de Trazadores Cúbicos">
     </div>
-
 </body>
 </html>
