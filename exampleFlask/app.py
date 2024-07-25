@@ -29,7 +29,7 @@ def falsa_posicion_page():
 def trazadores_cuadraticos_page():
     return render_template('trazadores_cuadraticos.html')
 @app.route('/trazadores_cubicos.html')
-def trazadores_cuadraticos_page():
+def trazadores_cubicos_page():
     return render_template('trazadores_cubicos.html')
 
 @app.route('/static/<path:filename>')
