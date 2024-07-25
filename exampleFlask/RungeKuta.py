@@ -54,7 +54,7 @@ def rungeKuta(ecuacion, x0, y0, incog, h):
         
         k4_p1 = xi + h
         k4_p2 = yi + h * k3
-        k4 = evaluarValores(ecuacion, k_p1, k4_p2)
+        k4 = evaluarValores(ecuacion, k4_p1, k4_p2)
         
         Yi1 = yi + (1/6) * (k1 + 2*k2 + 2*k3 + k4) * h
 

@@ -267,3 +267,45 @@ def graficar_simpson(a, b, funcion_x, puntos_x, puntos_y, label):
     plt.close(fig)
 
     return archivo_grafica
+
+def graficar_derivada(x0, h1, h2, funcion, puntos_x, puntos_y, titulo, pendiente_numerica, pendiente_analitica):
+    x = sp.Symbol('x')
+    funcion_lambdified = sp.lambdify(x, funcion, modules='numpy')
+
+    x_vals = np.linspace(x0 - 2*max(h1, h2), x0 + 2*max(h1, h2), 400)
+    y_vals = funcion_lambdified(x_vals)
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_vals, y_vals, label='Función original', color='blue')
+    plt.scatter(puntos_x, puntos_y, color='red', zorder=5)
+    for i, (px, py) in enumerate(zip(puntos_x, puntos_y)):
+        plt.text(px, py, f'P{i+1}({px:.2f}, {py:.2f})')
+
+    plt.axvline(x=x0, color='green', linestyle='--', label=f'x0 = {x0}')
+
+    y0 = funcion.subs(x, x0)
+    tangente_numerica = pendiente_numerica * (x_vals - x0) + y0
+    plt.plot(x_vals, tangente_numerica, label='Recta tangente numérica', color='orange', linestyle='--')
+
+    tangente_analitica = pendiente_analitica * (x_vals - x0) + y0
+    plt.plot(x_vals, tangente_analitica, label='Recta tangente analítica', color='purple', linestyle='--')
+
+    plt.xlabel('x')
+    plt.ylabel('f(x)')
+    plt.title(titulo)
+    plt.legend()
+    plt.grid(True)
+
+    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
+    archivo_grafica = os.path.join(directorio_static, 'grafica_derivada_richardson.png')
+
+    if os.path.exists(archivo_grafica):
+        os.remove(archivo_grafica)
+    
+    if not os.path.exists(directorio_static):
+        os.makedirs(directorio_static)
+
+    plt.savefig(archivo_grafica)
+    plt.close()
+
+    return archivo_grafica

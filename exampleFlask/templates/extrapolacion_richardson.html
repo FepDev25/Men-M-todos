@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Extrapolación de Richardson</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/extrapolacion_richardson.js') }}" defer></script>
+</head>
+<body>
+    <form id="richardsonForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Extrapolación de Richardson para Derivadas</h3>
+
+        <label for="x0">X0:</label><br>
+        <input class="controls" type="number" id="x0" name="x0" step="any"><br>
+        <label for="h1">H1:</label><br>
+        <input class="controls" type="number" id="h1" name="h1" step="any"><br>
+        <label for="h2">H2:</label><br>
+        <input class="controls" type="number" id="h2" name="h2" step="any"><br>
+        <label for="funcion">Función:</label><br>
+        <textarea class="controls" id="funcion" name="funcion"></textarea><br>
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Mensaje: <span id="mensaje"></span></p>
+        <p>Derivada Estimada: <span id="derivada"></span></p>
+        <p>Derivada Analítica: <span id="derivadaAnalitica"></span></p>
+        <p>Error: <span id="error"></span></p>
+
+        <img id="grafica" style="display:none;">
+    </div>
+</body>
+</html>

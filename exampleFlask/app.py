@@ -11,6 +11,7 @@ from trazadores_cubicos import *
 from simpson13 import *
 from simpson38 import *
 from trapecio import *
+from derivada_extrapol_r import *
 import os
 
 app = Flask(__name__)
@@ -69,6 +70,10 @@ def simpson38_page():
 @app.route('/trapecio.html')
 def trapecio_page():
     return render_template('trapecio.html')
+
+@app.route('/extrapolacion_richardson.html')
+def extrapolacion_richardson_page():
+    return render_template('extrapolacion_richardson.html')
 
 @app.route('/api/biseccion', methods=['POST'])
 def api_biseccion():
@@ -316,6 +321,28 @@ def api_trapecio():
         'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
     })
 
+@app.route('/api/extrapolacion_richardson', methods=['POST'])
+def api_extrapolacion_richardson():
+    data = request.json
+    x0 = data.get('x0')
+    h1 = data.get('h1')
+    h2 = data.get('h2')
+    funcion = data.get('funcion')
+
+    mensaje, derivada, derivada_analitica, error, archivo_grafica = extrapolacion_richardson(
+        funcion, x0, h1, h2
+    )
+    
+    # Obtener solo el nombre del archivo y no la ruta completa
+    archivo_grafica_nombre = os.path.basename(archivo_grafica)
+
+    return jsonify({
+        'mensaje': mensaje,
+        'derivada': derivada,
+        'derivada_analitica': derivada_analitica,
+        'error': error,
+        'grafica': f'/static/{archivo_grafica_nombre}'
+    })
 if __name__ == '__main__':
     app.run(debug=True)
 
