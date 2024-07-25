@@ -309,3 +309,24 @@ def graficar_derivada(x0, h1, h2, funcion, puntos_x, puntos_y, titulo, pendiente
     plt.close()
 
     return archivo_grafica
+
+def graficar_interpolacion(x, y, nuevos_x, nuevos_y, titulo='Interpolación'):
+    plt.figure(figsize=(10, 6))
+    
+    x_total = np.concatenate((x, nuevos_x))
+    y_total = np.concatenate((y, nuevos_y))
+    
+    orden_indices = np.argsort(x_total)
+    x_total = x_total[orden_indices]
+    y_total = y_total[orden_indices]
+    
+    plt.plot(x, y, 'o', label='Datos originales', color='blue')
+    plt.plot(nuevos_x, nuevos_y, 'x', label='Valores interpolados', color='red')
+    plt.plot(x_total, y_total, label='Valores Unidos', color='green', linestyle='-', marker='x')
+    
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title(titulo)
+    plt.legend()
+    plt.grid(True)
+    plt.show()
