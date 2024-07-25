@@ -7,6 +7,8 @@ from Euler import *
 from EulerMejorado import euler_mejorado 
 from RungeKuta import *
 from trazadores_cuadraticos import *
+from trazadores_cubicos import calcular_trazadores_cubicos
+
 import os
 
 app = Flask(__name__)
@@ -26,6 +28,9 @@ def falsa_posicion_page():
 @app.route('/trazadores_cuadraticos.html')
 def trazadores_cuadraticos_page():
     return render_template('trazadores_cuadraticos.html')
+@app.route('/trazadores_cubicos.html')
+def trazadores_cuadraticos_page():
+    return render_template('trazadores_cubicos.html')
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
@@ -222,6 +227,20 @@ def api_runge_kutta():
         'datos_iteraciones': datos_iteraciones,
         'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
     })
+@app.route('/api/trazadores_cubicos', methods=['POST'])
+def trazadores_cubicos():
+    data = request.json
+    x_data = data.get('x_data')
+    y_data = data.get('y_data')
+
+    if x_data is None or y_data is None:
+        return jsonify({'error': 'Datos de entrada faltantes'}), 400
+
+    try:
+        mensaje, splines, grafica = calcular_trazadores_cubicos(x_data, y_data)
+        return jsonify({'mensaje': mensaje, 'splines': splines, 'grafica': grafica})
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
