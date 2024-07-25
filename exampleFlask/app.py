@@ -7,7 +7,7 @@ from Euler import *
 from EulerMejorado import euler_mejorado 
 from RungeKuta import *
 from trazadores_cuadraticos import *
-from trazadores_cubicos import calcular_trazadores_cubicos
+from trazadores_cubicos import *
 
 import os
 

@@ -1,42 +1,44 @@
-import sympy as sp
-from scipy.interpolate import CubicSpline
 import numpy as np
-import matplotlib.pyplot as plt
+from scipy.interpolate import CubicSpline
+from graficas import graficar_trazadores_cubicos
 
-def trazadores_cubicos(xi, xu, mi_funcion):
-    cifras_redondeo = 7
-    x = sp.Symbol('x')
-    funcion = sp.sympify(mi_funcion)
+def calcular_trazadores_cubicos(x_data, y_data):
+    x_data = np.array(x_data, dtype=float)
+    y_data = np.array(y_data, dtype=float)
 
-    x_puntos = np.linspace(xi, xu, 10)
-    y_puntos = [funcion.subs(x, punto) for punto in x_puntos]
+    # Verificación de datos de entrada
+    if len(x_data) != len(y_data):
+        raise ValueError("Los datos de X e Y deben tener la misma longitud.")
+    
+    if len(x_data) < 4:
+        raise ValueError("Se necesitan al menos 4 puntos para calcular los trazadores cúbicos.")
 
-    interpolacion = CubicSpline(x_puntos, y_puntos)
+    # Cálculo de los trazadores cúbicos usando scipy
+    cs = CubicSpline(x_data, y_data, bc_type='natural')
 
-    datos_iteraciones = []
+    splines = []
+    ecuaciones = []
+    for i in range(len(x_data) - 1):
+        a = cs.c[3, i]
+        b = cs.c[2, i]
+        c = cs.c[1, i]
+        d = cs.c[0, i]
+        x0 = x_data[i]
 
-    for i in range(len(x_puntos) - 1):
-        xi = x_puntos[i]
-        xu = x_puntos[i + 1]
-        fx = interpolacion([xi, xu])
+        spline_segment = {
+            'a': a,
+            'b': b,
+            'c': c,
+            'd': d,
+            'x0': x0
+        }
+        splines.append(spline_segment)
 
-        datos_iteraciones.append({
-            'xi': float(round(xi, cifras_redondeo)),
-            'fxi': float(round(fx[0], cifras_redondeo)),
-            'xu': float(round(xu, cifras_redondeo)),
-            'fxu': float(round(fx[1], cifras_redondeo))
-        })
+        # Crear la ecuación como una cadena
+        ecuacion = f"S{i}(x) = {a:.3f} + {b:.3f}(x - {x0:.3f}) + {c:.3f}(x - {x0:.3f})^2 + {d:.3f}(x - {x0:.3f})^3"
+        ecuaciones.append(ecuacion)
 
-    plt.figure()
-    plt.plot(x_puntos, y_puntos, 'o', label='Datos')
-    plt.plot(x_puntos, interpolacion(x_puntos), '-', label='Trazador Cúbico')
-    plt.legend()
-    plt.xlabel('x')
-    plt.ylabel('f(x)')
-    plt.title('Trazadores Cúbicos')
+    grafica = graficar_trazadores_cubicos(x_data, y_data, splines)
+    mensaje = "Ecuaciones de los trazadores cúbicos:\n" + "\n".join(ecuaciones)
 
-    grafica_path = 'static/trazador_cubico.png'
-    plt.savefig(grafica_path)
-    plt.close()
-
-    return "Cálculo completado", datos_iteraciones, grafica_path
+    return mensaje, splines, grafica
