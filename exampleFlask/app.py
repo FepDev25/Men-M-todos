@@ -12,6 +12,7 @@ from simpson13 import *
 from simpson38 import *
 from trapecio import *
 from derivada_extrapol_r import *
+from interpolacion import *
 import os
 
 app = Flask(__name__)
@@ -74,6 +75,10 @@ def trapecio_page():
 @app.route('/extrapolacion_richardson.html')
 def extrapolacion_richardson_page():
     return render_template('extrapolacion_richardson.html')
+
+@app.route('/interpolacion.html')
+def interpolacion_page():
+    return render_template('interpolacion.html')
 
 @app.route('/api/biseccion', methods=['POST'])
 def api_biseccion():
@@ -343,6 +348,35 @@ def api_extrapolacion_richardson():
         'error': error,
         'grafica': f'/static/{archivo_grafica_nombre}'
     })
+
+@app.route('/api/interpolacion', methods=['POST'])
+def api_interpolacion():
+    data = request.json
+    x = np.array(data['x'])
+    y = np.array(data['y'])
+    nuevos_x = np.array(data['nuevos_x'])
+    metodo = data['metodo']
+    grado = data.get('grado', 3)  # Grado por defecto para Splines B-Spline
+
+    if metodo == 'lineal':
+        x, y, nuevos_x, nuevos_y, grafica = interpolacion_lineal(x, y, nuevos_x)
+    elif metodo == 'splines_cubicos':
+        x, y, nuevos_x, nuevos_y, grafica = interpolacion_splines_cubicos(x, y, nuevos_x)
+    elif metodo == 'splines_bspline':
+        x, y, nuevos_x, nuevos_y, grafica = interpolacion_splines_bspline(x, y, nuevos_x, grado)
+    elif metodo == 'polinomios_lagrange':
+        x, y, nuevos_x, nuevos_y, grafica = interpolacion_polinomios_lagrange(x, y, nuevos_x)
+    else:
+        return jsonify({'mensaje': 'Método de interpolación no reconocido'}), 400
+
+    return jsonify({
+        'x': x.tolist(),
+        'y': y.tolist(),
+        'nuevos_x': nuevos_x.tolist(),
+        'datos_interpolacion': nuevos_y.tolist(),
+        'grafica': grafica
+    })
+
 if __name__ == '__main__':
     app.run(debug=True)
 
