@@ -1,50 +1,49 @@
-import sympy as sp
 import numpy as np
-import matplotlib.pyplot as plt
+import sympy as sp
+from graficas import graficar_diferenciacion_numerica
 
-def diferenciacion_alta_precision(x0, h, mi_funcion):
-    cifras_redondeo = 7
+def calcular_diferenciacion_numerica(funcion, intervalo, tamaño_paso, metodo):
+    # Convertir la entrada
     x = sp.Symbol('x')
-    funcion = sp.sympify(mi_funcion)
+    func = sp.sympify(funcion)
+    f = sp.lambdify(x, func, 'numpy')
 
-    funcion_derivada = sp.diff(funcion, x)
-    funcion_lambdified = sp.lambdify(x, funcion)
-    funcion_derivada_lambdified = sp.lambdify(x, funcion_derivada)
+    # Determinar el intervalo de evaluación
+    intervalo = list(map(float, intervalo.split(',')))
+    tamaño_paso = float(tamaño_paso)
+    
+    x_data = np.arange(intervalo[0], intervalo[1], tamaño_paso)
+    y_data = f(x_data)
 
-    f_x0 = funcion_lambdified(x0)
-    f_x0_h = funcion_lambdified(x0 + h)
-    f_x0_mh = funcion_lambdified(x0 - h)
+    # Método de diferenciación
+    def diferencia_central(f, x, h):
+        return (f(x + h) - f(x - h)) / (2 * h)
+    
+    if metodo == 'adelante':
+        def diferencia_adicional(f, x, h):
+            return (f(x + h) - f(x)) / h
+        derivada = [diferencia_adicional(f, x, tamaño_paso) for x in x_data]
+    
+    elif metodo == 'atras':
+        def diferencia_atras(f, x, h):
+            return (f(x) - f(x - h)) / h
+        derivada = [diferencia_atras(f, x, tamaño_paso) for x in x_data]
+    
+    elif metodo == 'central':
+        derivada = [diferencia_central(f, x, tamaño_paso) for x in x_data]
+    
+    else:
+        raise ValueError("Método no válido. Use 'adelante', 'atras', o 'central'.")
 
-    derivada_aproximada = (f_x0_h - f_x0_mh) / (2 * h)
-    derivada_real = funcion_derivada_lambdified(x0)
-    error = derivada_real - derivada_aproximada
-    error_porcentual = (error / derivada_real) * 100 if derivada_real != 0 else 0
+    mensaje = "Cálculo de la derivada completado exitosamente."
 
-    datos_iteraciones = [{
-        'x0': float(round(x0, cifras_redondeo)),
-        'h': float(round(h, cifras_redondeo)),
-        'derivada_aproximada': float(round(derivada_aproximada, cifras_redondeo)),
-        'derivada_real': float(round(derivada_real, cifras_redondeo)),
-        'error': float(round(abs(error), cifras_redondeo)),
-        'error_porcentual': float(round(abs(error_porcentual), cifras_redondeo))
-    }]
+    # Genera la gráfica de la derivada
+    grafica_path = graficar_diferenciacion_numerica(x_data, derivada)
 
-    # Generar la gráfica
-    x_vals = np.linspace(x0 - h * 5, x0 + h * 5, 400)
-    y_vals = funcion_lambdified(x_vals)
-    y_derivada_vals = funcion_derivada_lambdified(x_vals)
+    resultado = {
+        'x': x_data.tolist(),
+        'y': derivada,
+        'grafica': grafica_path
+    }
 
-    plt.figure()
-    plt.plot(x_vals, y_vals, label='Función')
-    plt.plot(x_vals, y_derivada_vals, label='Derivada Real')
-    plt.scatter([x0], [derivada_aproximada], color='red', label='Derivada Aproximada')
-    plt.legend()
-    plt.xlabel('x')
-    plt.ylabel('f(x) y f\'(x)')
-    plt.title('Diferenciación Numérica de Alta Precisión')
-
-    grafica_path = 'static/diferenciacion_alta_precision.png'
-    plt.savefig(grafica_path)
-    plt.close()
-
-    return "Cálculo completado", datos_iteraciones, grafica_path
+    return mensaje, resultado
