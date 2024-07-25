@@ -234,3 +234,36 @@ def graficar_trazadores_cuadraticos(x_data, y_data, splines):
     plt.close(fig)
     
     return archivo_grafica
+
+def graficar_simpson(a, b, funcion_x, puntos_x, puntos_y, label):
+    x = sp.Symbol('x')
+    funcion = sp.sympify(funcion_x)
+    funcion_lambdified = sp.lambdify(x, funcion)
+
+    xs = np.linspace(a, b, 1000)
+    ys = funcion_lambdified(xs)
+
+    fig, ax = plt.subplots()
+    ax.plot(xs, ys, label='Función Original', color='blue')
+    ax.scatter(puntos_x, puntos_y, color='red')
+    ax.plot(puntos_x, puntos_y, label=label, color='red', linestyle='--')
+    ax.fill_between(xs, 0, ys, alpha=0.2, color='blue')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title(label)
+    ax.grid(True)
+    ax.legend()
+
+    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
+    archivo_grafica = os.path.join(directorio_static, 'grafica_simpson.png')
+
+    if os.path.exists(archivo_grafica):
+        os.remove(archivo_grafica)
+    
+    if not os.path.exists(directorio_static):
+        os.makedirs(directorio_static)
+
+    plt.savefig(archivo_grafica)
+    plt.close(fig)
+
+    return archivo_grafica

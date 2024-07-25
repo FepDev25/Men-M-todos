@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Simpson 1/3</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/simpson1-3.js') }}" defer></script>
+</head>
+<body>
+    
+    <form id="simpsonForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Simpson 1/3</h3>
+
+        <label for="a">Límite Inferior (a):</label><br>
+        <input class="controls" type="number" step="any" id="a" name="a"><br>
+        <label for="b">Límite Superior (b):</label><br>
+        <input class="controls" type="number" step="any" id="b" name="b"><br>
+        <label for="n">Número de Subintervalos (n):</label><br>
+        <input class="controls" type="number" id="n" name="n"><br>
+        <label for="funcion">Función:</label><br>
+        <textarea class="controls" id="funcion" name="funcion"></textarea><br>
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Salida: <span id="mensaje"></span></p>
+        <p>Área: <span id="area"></span></p>
+        <p>Integral Analítica: <span id="integral_analitica"></span></p>
+        <p>Error: <span id="error"></span></p>
+        <img id="grafica">
+    </div>
+    
+</body>
+</html>

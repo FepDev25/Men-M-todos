@@ -8,7 +8,9 @@ from EulerMejorado import euler_mejorado
 from RungeKuta import *
 from trazadores_cuadraticos import *
 from trazadores_cubicos import *
-
+from simpson13 import *
+from simpson38 import *
+from trapecio import *
 import os
 
 app = Flask(__name__)
@@ -55,6 +57,18 @@ def euler_mejorado_page():
 @app.route('/runge_kutta.html')
 def runge_kutta_page():
     return render_template('runge_kutta.html')
+
+@app.route('/simpson1-3.html')
+def simpson13_page():
+    return render_template('simpson1-3.html')
+
+@app.route('/simpson3-8.html')
+def simpson38_page():
+    return render_template('simpson3-8.html')
+
+@app.route('/trapecio.html')
+def trapecio_page():
+    return render_template('trapecio.html')
 
 @app.route('/api/biseccion', methods=['POST'])
 def api_biseccion():
@@ -241,6 +255,66 @@ def trazadores_cubicos():
         return jsonify({'mensaje': mensaje, 'splines': splines, 'grafica': grafica})
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
+
+@app.route('/api/simpson1-3', methods=['POST'])
+def api_simpson_tercio():
+    data = request.json
+    a = data.get('a')
+    b = data.get('b')
+    n = data.get('n')
+    funcion = data.get('funcion')
+
+    mensaje, area, archivo_grafica, integral_analitica, error = simpson_tercio(funcion, a, b, n)
+    
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
+
+    return jsonify({
+        'mensaje': mensaje,
+        'area': area,
+        'integral_analitica': integral_analitica,
+        'error': error,
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+    })
+
+@app.route('/api/simpson3-8', methods=['POST'])
+def api_simpson_octavo():
+    data = request.json
+    a = data.get('a')
+    b = data.get('b')
+    n = data.get('n')
+    funcion = data.get('funcion')
+
+    mensaje, area, archivo_grafica, integral_analitica, error = simpson_tres_octavos(funcion, a, b, n)
+    
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
+
+    return jsonify({
+        'mensaje': mensaje,
+        'area': area,
+        'integral_analitica': integral_analitica,
+        'error': error,
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+    })
+
+@app.route('/api/trapecio', methods=['POST'])
+def api_trapecio():
+    data = request.json
+    a = data.get('a')
+    b = data.get('b')
+    n = data.get('n')
+    funcion = data.get('funcion')
+
+    mensaje, area, archivo_grafica, integral_analitica, error = metodo_trapecio(funcion, a, b, n)
+    
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
+
+    return jsonify({
+        'mensaje': mensaje,
+        'area': area,
+        'integral_analitica': integral_analitica,
+        'error': error,
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
