@@ -13,6 +13,8 @@ from simpson38 import *
 from trapecio import *
 from derivada_extrapol_r import *
 from interpolacion import *
+from diferenciacion_numerica import *
+
 import os
 
 app = Flask(__name__)
@@ -35,6 +37,11 @@ def trazadores_cuadraticos_page():
 @app.route('/trazadores_cubicos.html')
 def trazadores_cubicos_page():
     return render_template('trazadores_cubicos.html')
+
+@app.route('/diferenciacion_numerica.html')
+def diferenciacion_numerica_page():
+    return render_template('diferenciacion_numerica.html')
+
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
@@ -376,6 +383,19 @@ def api_interpolacion():
         'datos_interpolacion': nuevos_y.tolist(),
         'grafica': grafica
     })
+@app.route('/api/diferenciacion_numerica', methods=['POST'])
+def api_diferenciacion_numerica():
+    datos = request.json
+    funcion = datos.get('funcion')
+    intervalo = datos.get('intervalo')
+    tamaño_paso = datos.get('tamaño_paso')
+    metodo = datos.get('metodo')
+
+    try:
+        mensaje, resultado = calcular_diferenciacion_numerica(funcion, intervalo, tamaño_paso, metodo)
+        return jsonify({'mensaje': mensaje, 'resultado': resultado})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
