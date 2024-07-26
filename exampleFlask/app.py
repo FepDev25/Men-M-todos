@@ -449,24 +449,17 @@ def api_derivadas_irregulares():
 
 @app.route('/api/gauss_simple', methods=['POST'])
 def api_gauss_simple():
-    try:
-        data = request.json
-        A = np.array(data['A'])
-        b = np.array(data['b'])
+    data = request.json
+    A = np.array(data['A'], dtype=float)
+    b = np.array(data['b'], dtype=float)
+    
+    solution, steps = gauss_simple(A, b)
+    formatted_steps = format_steps(steps)
 
-        x, steps = gauss_simple(A, b)
-        formatted_steps = format_steps(steps)
-
-        return jsonify({
-            'solution': x.tolist(),
-            'steps': formatted_steps
-        })
-    except KeyError as e:
-        return jsonify({'error': f'Missing key in request data: {str(e)}'}), 400
-    except ValueError as e:
-        return jsonify({'error': f'Value error: {str(e)}'}), 400
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
+    return jsonify({
+        'solution': solution.tolist(),
+        'steps': formatted_steps
+    })
 
 @app.route('/api/gauss_simple_pivoteo', methods=['POST'])
 def api_gauss_simple_pivoteo():

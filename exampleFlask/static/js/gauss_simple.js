@@ -1,59 +1,63 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('gaussSimpleForm').addEventListener('submit', function(event) {
         event.preventDefault();
-        
-        const size = parseInt(document.getElementById('matrixSize').value);
+
+        const matrixSize = parseInt(document.getElementById('matrixSize').value);
         const A = [];
         const b = [];
 
-        for (let i = 0; i < size; i++) {
-            const row = [];
-            for (let j = 0; j < size; j++) {
-                row.push(parseFloat(document.getElementById(`a${i}${j}`).value));
+        for (let i = 0; i < matrixSize; i++) {
+            A[i] = [];
+            for (let j = 0; j < matrixSize; j++) {
+                A[i][j] = parseFloat(document.getElementById(`A_${i}_${j}`).value);
             }
-            A.push(row);
-            b.push(parseFloat(document.getElementById(`b${i}`).value));
+            b[i] = parseFloat(document.getElementById(`b_${i}`).value);
         }
+
+        const data = {
+            A: A,
+            b: b
+        };
 
         fetch('/api/gauss_simple', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ A: A, b: b })
+            body: JSON.stringify(data)
         })
         .then(response => response.json())
         .then(result => {
-            const stepsDiv = document.getElementById('steps');
-            const solutionDiv = document.getElementById('solution');
-
-            stepsDiv.textContent = result.steps.join('\n\n');
-            solutionDiv.textContent = result.solution.map((x, i) => `x${i+1} = ${x.toFixed(4)}`).join(', ');
+            const steps = result.steps.join('\n\n');
+            document.getElementById('steps').textContent = steps;
+            document.getElementById('solution').textContent = result.solution;
         })
         .catch(error => console.error('Error:', error));
     });
 });
 
 function generateMatrixInputs() {
-    const size = parseInt(document.getElementById('matrixSize').value);
-    const matrixInputs = document.getElementById('matrixInputs');
-    matrixInputs.innerHTML = '';
+    const matrixSize = parseInt(document.getElementById('matrixSize').value);
+    const matrixInputsDiv = document.getElementById('matrixInputs');
+    matrixInputsDiv.innerHTML = '';
 
-    for (let i = 0; i < size; i++) {
-        for (let j = 0; j < size; j++) {
+    for (let i = 0; i < matrixSize; i++) {
+        for (let j = 0; j < matrixSize; j++) {
             const input = document.createElement('input');
             input.type = 'number';
-            input.id = `a${i}${j}`;
             input.className = 'controls';
-            input.placeholder = `A[${i+1}][${j+1}]`;
-            matrixInputs.appendChild(input);
+            input.id = `A_${i}_${j}`;
+            input.name = `A_${i}_${j}`;
+            input.placeholder = `A[${i}][${j}]`;
+            matrixInputsDiv.appendChild(input);
         }
-        const bInput = document.createElement('input');
-        bInput.type = 'number';
-        bInput.id = `b${i}`;
-        bInput.className = 'controls';
-        bInput.placeholder = `b[${i+1}]`;
-        matrixInputs.appendChild(bInput);
-        matrixInputs.appendChild(document.createElement('br'));
+        const inputB = document.createElement('input');
+        inputB.type = 'number';
+        inputB.className = 'controls';
+        inputB.id = `b_${i}`;
+        inputB.name = `b_${i}`;
+        inputB.placeholder = `b[${i}]`;
+        matrixInputsDiv.appendChild(inputB);
+        matrixInputsDiv.appendChild(document.createElement('br'));
     }
 }
