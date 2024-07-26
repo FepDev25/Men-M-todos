@@ -168,6 +168,72 @@ def graficar_trazadores_cubicos(x_data, y_data, splines):
     
     return archivo_grafica
 
+#Metodo graficar diferenciacion numerica
+def graficar_diferenciacion_numerica(x_data, derivadas):
+    """
+    Genera y guarda una gráfica de las derivadas calculadas.
+
+    Args:
+        x_data (list or np.array): Los puntos x en los que se calcularon las derivadas.
+        derivadas (list or np.array): Las derivadas calculadas en los puntos x.
+    
+    Returns:
+        str: El nombre del archivo de la gráfica guardada.
+    """
+    x_data = np.array(x_data, dtype=float)
+    derivadas = np.array(derivadas, dtype=float)
+
+    plt.figure()
+    plt.plot(x_data, derivadas, 'o-', label='Derivadas Calculadas', color='blue')
+    plt.xlabel('x')
+    plt.ylabel('Derivada')
+    plt.title('Derivada Calculada por Diferenciación Numérica')
+    plt.legend()
+    plt.grid(True)
+    
+    # Guardar la gráfica en la carpeta static
+    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
+    nombre_archivo = 'grafica_diferenciacion_numerica.png'
+    archivo_grafica = os.path.join(directorio_static, nombre_archivo)
+
+    if not os.path.exists(directorio_static):
+        os.makedirs(directorio_static)
+
+    plt.savefig(archivo_grafica)
+    plt.close()
+
+    return nombre_archivo
+#Metodo graficar derivadas_irregulares
+def graficar_derivadas_irregulares(x_data, derivadas, metodo):
+    """
+    Genera y guarda una gráfica de las derivadas calculadas para datos irregulares.
+
+    Args:
+        x_data (list or np.array): Los puntos x en los que se calcularon las derivadas.
+        derivadas (list or np.array): Las derivadas calculadas en los puntos x.
+        metodo (str): El método utilizado para calcular la derivada.
+    
+    Returns:
+        str: El nombre del archivo de la gráfica guardada.
+    """
+    x_data = np.array(x_data, dtype=float)
+    derivadas = np.array(derivadas, dtype=float)
+
+    plt.figure()
+    plt.plot(x_data, derivadas, 'o-', label=f'Derivadas Calculadas ({metodo})', color='blue')
+    plt.xlabel('x')
+    plt.ylabel('Derivada')
+    plt.title('Derivada Calculada por Diferenciación Numérica para Datos Irregulares')
+    plt.legend()
+    plt.grid(True)
+    
+    # Guardar la gráfica en la carpeta static
+    nombre_archivo = 'grafica_diferenciacion_irregular.png'
+    plt.savefig(f'static/{nombre_archivo}')
+    plt.close()
+
+    return nombre_archivo
+
 def graficar_edos(xs, ys_numericos, ys_analiticos):
     fig, ax = plt.subplots()
     ax.plot(xs, ys_numericos, label='Solución Numérica', marker='o')
@@ -341,6 +407,28 @@ def graficar_cuadratura_gauss(funcion, a, b, puntos_x, puntos_y, integral_aprox)
 
     directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
     archivo_grafica = os.path.join(directorio_static, 'grafica_cuadratura_gauss.png')
+def graficar_interpolacion(x, y, nuevos_x, nuevos_y, titulo='Interpolación'):
+    plt.figure(figsize=(10, 6))
+    
+    x_total = np.concatenate((x, nuevos_x))
+    y_total = np.concatenate((y, nuevos_y))
+    
+    orden_indices = np.argsort(x_total)
+    x_total = x_total[orden_indices]
+    y_total = y_total[orden_indices]
+    
+    plt.plot(x, y, 'o', label='Datos originales', color='blue')
+    plt.plot(nuevos_x, nuevos_y, 'x', label='Valores interpolados', color='red')
+    plt.plot(x_total, y_total, label='Valores Unidos', color='green', linestyle='-', marker='x')
+    
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title(titulo)
+    plt.legend()
+    plt.grid(True)
+
+    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
+    archivo_grafica = os.path.join(directorio_static, 'grafica_interpolacion.png')
 
     if os.path.exists(archivo_grafica):
         os.remove(archivo_grafica)
@@ -351,4 +439,7 @@ def graficar_cuadratura_gauss(funcion, a, b, puntos_x, puntos_y, integral_aprox)
     plt.savefig(archivo_grafica)
     plt.close(fig)
     
+    return archivo_grafica
+    plt.close()
+
     return archivo_grafica

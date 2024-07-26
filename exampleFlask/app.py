@@ -17,6 +17,9 @@ from gauss_simple_pivoteo import resolver_gauss_simple_pivoteo
 from gauss_jordan import gauss_jordan, format_steps, plot_solution
 from cuadratura_gauss import cuadratura_gauss
 from regresion import calcular_regresion
+from interpolacion import *
+from diferenciacion_numerica import *
+from derivadas_irregulares import *
 
 import os
 import numpy as np 
@@ -41,6 +44,15 @@ def trazadores_cuadraticos_page():
 @app.route('/trazadores_cubicos.html')
 def trazadores_cubicos_page():
     return render_template('trazadores_cubicos.html')
+
+@app.route('/diferenciacion_numerica.html')
+def diferenciacion_numerica_page():
+    return render_template('diferenciacion_numerica.html')
+
+@app.route('/derivadas_irregulares.html')
+def derivadas_irregulares_page():
+    return render_template('derivadas_irregulares.html')
+
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
@@ -105,6 +117,9 @@ def regresion_page():
 
 
 
+@app.route('/interpolacion.html')
+def interpolacion_page():
+    return render_template('interpolacion.html')
 
 @app.route('/api/biseccion', methods=['POST'])
 def api_biseccion():
@@ -374,6 +389,65 @@ def api_extrapolacion_richardson():
         'error': error,
         'grafica': f'/static/{archivo_grafica_nombre}'
     })
+
+@app.route('/api/interpolacion', methods=['POST'])
+def api_interpolacion():
+    data = request.json
+    x = np.array(data['x'])
+    y = np.array(data['y'])
+    nuevos_x = np.array(data['nuevos_x'])
+    metodo = data['metodo']
+    grado = data.get('grado', 3)  # Grado por defecto para Splines B-Spline
+
+    if metodo == 'lineal':
+        x, y, nuevos_x, nuevos_y, grafica = interpolacion_lineal(x, y, nuevos_x)
+    elif metodo == 'splines_cubicos':
+        x, y, nuevos_x, nuevos_y, grafica = interpolacion_splines_cubicos(x, y, nuevos_x)
+    elif metodo == 'splines_bspline':
+        x, y, nuevos_x, nuevos_y, grafica = interpolacion_splines_bspline(x, y, nuevos_x, grado)
+    elif metodo == 'polinomios_lagrange':
+        x, y, nuevos_x, nuevos_y, grafica = interpolacion_polinomios_lagrange(x, y, nuevos_x)
+    else:
+        return jsonify({'mensaje': 'Método de interpolación no reconocido'}), 400
+
+    return jsonify({
+        'x': x.tolist(),
+        'y': y.tolist(),
+        'nuevos_x': nuevos_x.tolist(),
+        'datos_interpolacion': nuevos_y.tolist(),
+        'grafica': grafica
+    })
+@app.route('/api/diferenciacion_numerica', methods=['POST'])
+def api_diferenciacion_numerica():
+    datos = request.json
+    funcion = datos.get('funcion')
+    intervalo = datos.get('intervalo')
+    tamaño_paso = datos.get('tamaño_paso')
+    metodo = datos.get('metodo')
+
+    try:
+        mensaje, resultado = calcular_diferenciacion_numerica(funcion, intervalo, tamaño_paso, metodo)
+        return jsonify({'mensaje': mensaje, 'resultado': resultado})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/api/derivadas_irregulares', methods=['POST'])
+def api_derivadas_irregulares():
+    data = request.json
+    pares = data.get('pares', [])
+    punto_estimar = data.get('punto_estimar')
+    metodo = data.get('metodo')
+    
+    if not pares or punto_estimar is None or not metodo:
+        return jsonify({'error': 'Datos incompletos.'}), 400
+    
+    try:
+        mensaje, resultado, grafica_path = calcular_derivadas_irregulares(pares, punto_estimar, metodo)
+        return jsonify({'mensaje': mensaje, 'resultado': resultado, 'grafica': grafica_path})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 

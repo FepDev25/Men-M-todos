@@ -7,19 +7,55 @@
 </head>
 <body>
 
-    <h1 class="titulo">Metodos Numericos</h1>
+    <header>
+        <h1 class="titulo">Métodos Numéricos Proyecto Final</h1>
+        <div class="nav-bag">
+            <nav class="navegacion_principal contenedor">
+                <a href="#lineales">Ecuaciones Lineales</a>
+                <a href="#no-lineales">Ecuaciones No Lineales</a>
+                <a href="#regresion">Regresión e Interpolación</a>
+                <a href="#diferenciacion">Diferenciación e Integración</a>
+                <a href="#diferenciales">Ecuaciones Diferenciales</a>
+            </nav>
+        </div>
+        
+    </header>
 
-    <div class="section">
+    <main class="contenedor seccion">
+        <div class="iconos-nosotros">
+            <div class="icono info">
+                <img src="../static/imagespage/logaritmo.png" alt="Icono seguridad" loading="lazy">
+                <h3>Metodos Numéricos</h3>
+                <p>Este proyecto web está diseñado como una aplicación para la resolución y visualización de métodos numéricos utilizados en matemáticas e ingeniería. El objetivo es crear una interfaz didáctica para resolver ejercicios empleando los diferentes métodos vistos en la materia.</p>
+            </div>
+            <div class="icono info">
+                <img src="../static/imagespage/reglas-de-casa.png" alt="Icono Precio" loading="lazy">
+                <h3>Indicaciones</h3>
+                <p>En las siguientes secciones se presentan los métodos divididos por los diferentes temas que se han visto en la materia. Cada método tiene su propia interfaz, en donde se darán las respectivas indicaciones para realizar los ingresos correctamente.</p>
+            </div>
+            <div class="icono info">
+                <img src="../static/imagespage/creador-de-contenido.png" alt="Icono Tiempo" loading="lazy">
+                <h3>Creadores</h3>
+                <p>El repositorio correspondiente al proyecto se encuentra en el siguiente <a href="https://github.com/FepDev25/Men-M-todos">enlace</a>, donde se encuentra todo el código que pertenece a la página web. El proyecto fue realizado por los siguientes estudiantes: </p>
+                    <ul>
+                        <li>Cinthya Catalina Ramon Morocho.</li>
+                        <li>Samantha Micaela Suquilanda Quilli.</li>
+                        <li>Diego Felipe Peralta Peralta.</li>
+                    </ul>
+            </div>
+        </div>
+    </main> 
+
+    <div id="lineales" class="info-sections">
         <h2 class="titulosUnidades">Ecuaciones Lineales</h2>
         <div class="group">
             <a href="./gauss_simple.html" class="button">Gauss Simple</a>
             <a href="./gauss_jordan.html" class="button">Gauss Jordan</a>
             <a href="./gauss_simple_pivoteo.html" class="button">Gauss Simple con Pivoteo Parcial</a>
-            <a href="#" class="button">Gauss-Seidel</a>
         </div>
     </div>
 
-    <div class="section">
+    <div id="no-lineales" class="info-sections">
         <h2 class="titulosUnidades">Ecuaciones no Lineales</h2>
         <div class="group">
             <h3 class="titulosTemas">Métodos Cerrados</h3>
@@ -33,28 +69,27 @@
         </div>
     </div>
 
-    <div class="section">
+    <div id="regresion" class="info-sections">
         <h2 class="titulosUnidades">Regresión - Interpolación</h2>
         <div class="group">
             <h3 class="titulosTemas">Regresión</h3>
-            <a href="#" class="button">Regresión Lineal - Polinomial</a>
+            <a href="./regresion.html" class="button">Regresión Lineal - Polinomial</a>
             <h3 class="titulosTemas">Interpolación</h3>
-            <a href="#" class="button">Interpolación de Lagrange</a>
-            <a href="#" class="button">Interpolación Inversa</a>
+            <a href="./interpolacion.html" class="button">Metodos de Interpolación</a>
             <h3 class="titulosTemas">Trazadores</h3>
             <a href="./trazadores_cuadraticos.html" class="button">Trazadores Cuadráticos</a>
             <a href="./trazadores_cubicos.html"class="button">Trazadores Cúbicos</a>
         </div>
     </div>
 
-    <div class="section">
+    <div id="diferenciacion" class="info-sections">
         <h2 class="titulosUnidades">Diferenciación Numérica - Integración Numérica</h2>
         <div class="group">
             <h3 class="titulosTemas">Derivadas</h3>
             <a href="./cuadratura_gauss.html" class="button">Cuadratura de Gauss</a>
-            <a href="#" class="button">Diferenciación Numérica</a>
+            <a href="./diferenciacion_numerica.html" class="button">Diferenciación Numérica</a>
             <a href="./extrapolacion_richardson.html" class="button">Extrapolación de Richardson</a>
-            <a href="#" class="button">Derivadas de Datos Irregularmente Espaciados</a>
+            <a href="./derivadas_irregulares.html" class="button">Derivadas de Datos Irregularmente Espaciados</a>
             <h3 class="titulosTemas">Integrales</h3>
             <a href="./trapecio.html" class="button">Trapecio</a>
             <a href="./simpson1-3.html" class="button">Simpson 1/3</a>
@@ -62,7 +97,7 @@
         </div>
     </div>
 
-    <div class="section">
+    <div id="diferenciales" class="info-sections">
         <h2 class="titulosUnidades">Ecuaciones Diferenciales</h2>
         <div class="group">
             <a href="./euler.html" class="button">Euler</a>
@@ -71,5 +106,23 @@
         </div>
     </div>
 
+    <footer class="footer seccion">
+        <div class="contenedor-footer">
+            <div class="footer-informacion">
+                <h3>Acerca de</h3>
+                <p>Este proyecto fue desarrollado como parte del curso de Métodos Numéricos en la Universidad Politecnica Salesiana. Aquí se abordan diversos métodos numéricos aplicados a la solución de problemas matemáticos.</p>
+            </div>
+            <div class="footer-contacto">
+                <h3>Contacto</h3>
+                <p>dperaltap2@est.ups.edu.ec</p>
+                <p>ssuquilanda@est.ups.edu.ec</p>
+                <p>cramonm1@est.ups.edu.ec</p>
+            </div>
+        </div>
+        <p class="copyright">Todos los derechos Reservados 2024 &copy; Métodos Numéricos</p>
+    </footer>
+
 </body>
+
+
 </html>

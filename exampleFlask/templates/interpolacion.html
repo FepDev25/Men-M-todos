@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Métodos de Interpolación</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/interpolacion.js') }}" defer></script>
+</head>
+<body>
+
+    <form id="interpolacionForm" class="form-register">
+        <h3 class="titulosMetodos">Métodos de Interpolación</h3>
+
+        <label for="x">Valores de X (separados por comas):</label><br>
+        <input class="controls" type="text" id="x" name="x"><br>
+        <label for="y">Valores de Y (separados por comas):</label><br>
+        <input class="controls" type="text" id="y" name="y"><br>
+        <label for="nuevos_x">Nuevos valores de X (separados por comas):</label><br>
+        <input class="controls" type="text" id="nuevos_x" name="nuevos_x"><br>
+
+        <label for="metodo">Método de Interpolación:</label><br>
+        <select class="controls" id="metodo" name="metodo">
+            <option value="lineal">Lineal</option>
+            <option value="splines_cubicos">Splines Cúbicos</option>
+            <option value="splines_bspline">Splines B-Spline</option>
+            <option value="polinomios_lagrange">Polinomios de Lagrange</option>
+        </select><br>
+
+        <div id="grado-container" style="display: none;">
+            <label for="grado">Grado (solo para Splines B-Spline):</label><br>
+            <input class="controls" type="number" id="grado" name="grado" min="1" max="5"><br>
+        </div>
+
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <h3>Datos de Interpolación:</h3>
+        <p>X: <span id="x"></span></p>
+        <p>Y: <span id="y"></span></p>
+        <table id="tabla-resultados">
+            <thead>
+                <tr>
+                    <th>Nuevo X</th>
+                    <th>Nuevo Y</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <img id="grafica">
+    </div>
+
+</body>
+</html>

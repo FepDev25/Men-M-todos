@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Diferenciación Numérica</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+    <script src="{{ url_for('static', filename='js/diferenciacion_numerica.js') }}" defer></script>
+</head>
+<body>
+    <form id="diferenciacionNumericaForm" class="form-register">
+        <h3 class="titulosMetodos">Diferenciación Numérica</h3>
+
+        <label for="funcion">Función:</label><br>
+        <textarea class="controls" id="funcion" name="funcion"></textarea><br>
+        
+        <label for="intervalo">Intervalo (ej. 0,10):</label><br>
+        <input type="text" class="controls" id="intervalo" name="intervalo"><br>
+        
+        <label for="tamaño_paso">Tamaño del Paso:</label><br>
+        <input type="text" class="controls" id="tamaño_paso" name="tamaño_paso"><br>
+        
+        <label for="metodo">Método:</label><br>
+        <select class="controls" id="metodo" name="metodo">
+            <option value="adelante">Adelante</option>
+            <option value="atras">Atrás</option>
+            <option value="central">Central</option>
+            <option value="cuadratico">Cuadrático</option>
+            <option value="cubico">Cúbico</option>
+        </select><br><br>
+        
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Salida: <span id="mensaje"></span></p>
+        <img id="grafica" src="{{ url_for('static', filename='grafica_diferenciacion_numerica.png') }}" alt="Gráfica de Diferenciación Numérica" style="display: none;">
+    </div>
+</body>
+</html>

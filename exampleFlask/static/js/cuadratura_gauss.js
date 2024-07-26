@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('cuadraturaGaussForm').addEventListener('submit', function(event) {
         event.preventDefault();
-
+        
         const funcion = document.getElementById('funcion').value;
         const a = parseFloat(document.getElementById('a').value);
         const b = parseFloat(document.getElementById('b').value);
