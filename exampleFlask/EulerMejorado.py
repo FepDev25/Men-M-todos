@@ -44,6 +44,8 @@ def euler_mejorado(ecuacion, x0, y0, incog, h):
             y = symbols('y')
             resultado = y_analitica.subs(y, yi)
             y_analitica = resultado
+        else:
+            y_analitica = round(float(resultado), digitos_redondeo)
 
         # Calcular el error
         error = abs(Yi1 - y_analitica)
@@ -55,7 +57,7 @@ def euler_mejorado(ecuacion, x0, y0, incog, h):
             'Yn_1_elv': round(float(Yn_1_elv), digitos_redondeo),
             'Xn_1': round(float(Xn_1), digitos_redondeo),
             'Yi+1': round(float(Yi1), digitos_redondeo),
-            'y_analitica': round(float(y_analitica), digitos_redondeo),
+            'y_analitica': y_analitica,
             'error': round(float(error), digitos_redondeo)
         })
 
