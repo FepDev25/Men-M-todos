@@ -2,40 +2,34 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Derivadas de Datos Irregularmente Espaciados</title>
-    <link rel="stylesheet" href="../static/estilos.css">
-    <script src="{{ url_for('static', filename='js/derivadas_irregular.js') }}" defer></script>
+    <title>Calculadora de Derivadas Irregulares</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+    <script src="{{ url_for('static', filename='js/derivadas_irregulares.js') }}" defer></script>
 </head>
 <body>
-    
-    <form id="derivadasIrregularForm" class="form-register">
-        <h3 class="titulosMetodos">Derivadas de Datos Irregularmente Espaciados</h3>
+    <form id="derivadasIrregularesForm" class="form-register">
+        <h3 class="titulosMetodos">Derivadas para Datos Irregulares</h3>
 
-        <label for="x_values">Valores de x (separados por comas):</label><br>
-        <input class="controls" type="text" id="x_values" name="x_values"><br>
-        <label for="y_values">Valores de y (separados por comas):</label><br>
-        <input class="controls" type="text" id="y_values" name="y_values"><br>
+        <label for="pares">Pares de valores (x,y) (formato: x1,y1;x2,y2;...):</label><br>
+        <textarea class="controls" id="pares" name="pares"></textarea><br>
+        
+        <label for="punto_estimar">Punto en x para estimar la derivada:</label><br>
+        <input type="text" class="controls" id="punto_estimar" name="punto_estimar"><br>
+        
+        <label for="metodo">Método:</label><br>
+        <select class="controls" id="metodo" name="metodo">
+            <option value="adelante">Adelante</option>
+            <option value="atras">Atrás</option>
+            <option value="central">Central</option>
+        </select><br><br>
+        
         <button class="botons" type="submit">Calcular</button>
     </form>
 
     <div id="resultados">
         <p>Resultado del cálculo:</p>
         <p>Salida: <span id="mensaje"></span></p>
-        <h3>Datos de Iteraciones:</h3>
-        <table id="tabla-resultados">
-            <thead>
-                <tr>
-                    <th>x</th>
-                    <th>y</th>
-                    <th>Derivada</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-
-        <img id="grafica">
+        <img id="grafica" src="{{ url_for('static', filename='grafica_derivadas_irregulares.png') }}" alt="Gráfica de Derivadas Irregulares" style="display: none;">
     </div>
-
 </body>
 </html>
