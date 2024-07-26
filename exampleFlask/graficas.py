@@ -203,7 +203,36 @@ def graficar_diferenciacion_numerica(x_data, derivadas):
     plt.close()
 
     return nombre_archivo
+#Metodo graficar derivadas_irregulares
+def graficar_derivadas_irregulares(x_data, derivadas, metodo):
+    """
+    Genera y guarda una gráfica de las derivadas calculadas para datos irregulares.
 
+    Args:
+        x_data (list or np.array): Los puntos x en los que se calcularon las derivadas.
+        derivadas (list or np.array): Las derivadas calculadas en los puntos x.
+        metodo (str): El método utilizado para calcular la derivada.
+    
+    Returns:
+        str: El nombre del archivo de la gráfica guardada.
+    """
+    x_data = np.array(x_data, dtype=float)
+    derivadas = np.array(derivadas, dtype=float)
+
+    plt.figure()
+    plt.plot(x_data, derivadas, 'o-', label=f'Derivadas Calculadas ({metodo})', color='blue')
+    plt.xlabel('x')
+    plt.ylabel('Derivada')
+    plt.title('Derivada Calculada por Diferenciación Numérica para Datos Irregulares')
+    plt.legend()
+    plt.grid(True)
+    
+    # Guardar la gráfica en la carpeta static
+    nombre_archivo = 'grafica_diferenciacion_irregular.png'
+    plt.savefig(f'static/{nombre_archivo}')
+    plt.close()
+
+    return nombre_archivo
 
 def graficar_edos(xs, ys_numericos, ys_analiticos):
     fig, ax = plt.subplots()
@@ -270,113 +299,4 @@ def graficar_trazadores_cuadraticos(x_data, y_data, splines):
     plt.savefig(archivo_grafica)
     plt.close(fig)
     
-    return archivo_grafica
-
-def graficar_simpson(a, b, funcion_x, puntos_x, puntos_y, label):
-    x = sp.Symbol('x')
-    funcion = sp.sympify(funcion_x)
-    funcion_lambdified = sp.lambdify(x, funcion)
-
-    xs = np.linspace(a, b, 1000)
-    ys = funcion_lambdified(xs)
-
-    fig, ax = plt.subplots()
-    ax.plot(xs, ys, label='Función Original', color='blue')
-    ax.scatter(puntos_x, puntos_y, color='red')
-    ax.plot(puntos_x, puntos_y, label=label, color='red', linestyle='--')
-    ax.fill_between(xs, 0, ys, alpha=0.2, color='blue')
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_title(label)
-    ax.grid(True)
-    ax.legend()
-
-    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
-    archivo_grafica = os.path.join(directorio_static, 'grafica_simpson.png')
-
-    if os.path.exists(archivo_grafica):
-        os.remove(archivo_grafica)
-    
-    if not os.path.exists(directorio_static):
-        os.makedirs(directorio_static)
-
-    plt.savefig(archivo_grafica)
-    plt.close(fig)
-
-    return archivo_grafica
-
-def graficar_derivada(x0, h1, h2, funcion, puntos_x, puntos_y, titulo, pendiente_numerica, pendiente_analitica):
-    x = sp.Symbol('x')
-    funcion_lambdified = sp.lambdify(x, funcion, modules='numpy')
-
-    x_vals = np.linspace(x0 - 2*max(h1, h2), x0 + 2*max(h1, h2), 400)
-    y_vals = funcion_lambdified(x_vals)
-
-    plt.figure(figsize=(10, 6))
-    plt.plot(x_vals, y_vals, label='Función original', color='blue')
-    plt.scatter(puntos_x, puntos_y, color='red', zorder=5)
-    for i, (px, py) in enumerate(zip(puntos_x, puntos_y)):
-        plt.text(px, py, f'P{i+1}({px:.2f}, {py:.2f})')
-
-    plt.axvline(x=x0, color='green', linestyle='--', label=f'x0 = {x0}')
-
-    y0 = funcion.subs(x, x0)
-    tangente_numerica = pendiente_numerica * (x_vals - x0) + y0
-    plt.plot(x_vals, tangente_numerica, label='Recta tangente numérica', color='orange', linestyle='--')
-
-    tangente_analitica = pendiente_analitica * (x_vals - x0) + y0
-    plt.plot(x_vals, tangente_analitica, label='Recta tangente analítica', color='purple', linestyle='--')
-
-    plt.xlabel('x')
-    plt.ylabel('f(x)')
-    plt.title(titulo)
-    plt.legend()
-    plt.grid(True)
-
-    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
-    archivo_grafica = os.path.join(directorio_static, 'grafica_derivada_richardson.png')
-
-    if os.path.exists(archivo_grafica):
-        os.remove(archivo_grafica)
-    
-    if not os.path.exists(directorio_static):
-        os.makedirs(directorio_static)
-
-    plt.savefig(archivo_grafica)
-    plt.close()
-
-    return archivo_grafica
-
-def graficar_interpolacion(x, y, nuevos_x, nuevos_y, titulo='Interpolación'):
-    plt.figure(figsize=(10, 6))
-    
-    x_total = np.concatenate((x, nuevos_x))
-    y_total = np.concatenate((y, nuevos_y))
-    
-    orden_indices = np.argsort(x_total)
-    x_total = x_total[orden_indices]
-    y_total = y_total[orden_indices]
-    
-    plt.plot(x, y, 'o', label='Datos originales', color='blue')
-    plt.plot(nuevos_x, nuevos_y, 'x', label='Valores interpolados', color='red')
-    plt.plot(x_total, y_total, label='Valores Unidos', color='green', linestyle='-', marker='x')
-    
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title(titulo)
-    plt.legend()
-    plt.grid(True)
-
-    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
-    archivo_grafica = os.path.join(directorio_static, 'grafica_interpolacion.png')
-
-    if os.path.exists(archivo_grafica):
-        os.remove(archivo_grafica)
-    
-    if not os.path.exists(directorio_static):
-        os.makedirs(directorio_static)
-
-    plt.savefig(archivo_grafica)
-    plt.close()
-
     return archivo_grafica
