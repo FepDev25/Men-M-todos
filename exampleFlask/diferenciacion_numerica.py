@@ -1,6 +1,6 @@
 import numpy as np
 import sympy as sp
-from graficas import graficar_diferenciacion_numerica
+from graficas import *
 
 def calcular_diferenciacion_numerica(funcion, intervalo, tamaño_paso, metodo):
     # Convertir la entrada

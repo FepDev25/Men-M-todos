@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const graficaImg = document.getElementById('grafica');
             if (result.resultado.grafica && result.resultado.grafica !== 'No aplica para este método.') {
-                graficaImg.src = '/static/' + result.resultado.grafica + '?t=' + new Date().getTime();
+                graficaImg.src = '/static/grafica_diferenciacion_numerica.png?t=' + new Date().getTime();
                 graficaImg.style.display = 'block';
             } else {
                 graficaImg.style.display = 'none';

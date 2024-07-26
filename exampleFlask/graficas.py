@@ -169,40 +169,21 @@ def graficar_trazadores_cubicos(x_data, y_data, splines):
     return archivo_grafica
 
 #Metodo graficar diferenciacion numerica
-def graficar_diferenciacion_numerica(x_data, derivadas):
-    """
-    Genera y guarda una gráfica de las derivadas calculadas.
-
-    Args:
-        x_data (list or np.array): Los puntos x en los que se calcularon las derivadas.
-        derivadas (list or np.array): Las derivadas calculadas en los puntos x.
-    
-    Returns:
-        str: El nombre del archivo de la gráfica guardada.
-    """
-    x_data = np.array(x_data, dtype=float)
-    derivadas = np.array(derivadas, dtype=float)
-
-    plt.figure()
-    plt.plot(x_data, derivadas, 'o-', label='Derivadas Calculadas', color='blue')
+def graficar_diferenciacion_numerica(x_data, derivada):
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_data, derivada, label='Derivada', color='blue')
     plt.xlabel('x')
     plt.ylabel('Derivada')
-    plt.title('Derivada Calculada por Diferenciación Numérica')
+    plt.title('Gráfica de la Diferenciación Numérica')
     plt.legend()
     plt.grid(True)
     
-    # Guardar la gráfica en la carpeta static
-    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
-    nombre_archivo = 'grafica_diferenciacion_numerica.png'
-    archivo_grafica = os.path.join(directorio_static, nombre_archivo)
-
-    if not os.path.exists(directorio_static):
-        os.makedirs(directorio_static)
-
-    plt.savefig(archivo_grafica)
+    # Guardar la gráfica en el directorio 'static'
+    grafica_path = os.path.join('static', 'grafica_diferenciacion_numerica.png')
+    plt.savefig(grafica_path)
     plt.close()
-
-    return nombre_archivo
+    
+    return grafica_path
 #Metodo graficar_derivadas_irregulares
 def graficar_derivadas_irregulares(x_data, derivadas, metodo):
     """
