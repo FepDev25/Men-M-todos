@@ -447,25 +447,24 @@ def api_derivadas_irregulares():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
-#gauss simple
 @app.route('/api/gauss_simple', methods=['POST'])
 def api_gauss_simple():
-    data = request.json
-    A = np.array(data['A'])
-    b = np.array(data['b'])
-
     try:
+        data = request.json
+        A = np.array(data['A'])
+        b = np.array(data['b'])
+
         x, steps = gauss_simple(A, b)
         formatted_steps = format_steps(steps)
+
         return jsonify({
             'solution': x.tolist(),
             'steps': formatted_steps
         })
+    except KeyError as e:
+        return jsonify({'error': f'Missing key in request data: {str(e)}'}), 400
+    except ValueError as e:
+        return jsonify({'error': f'Value error: {str(e)}'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
