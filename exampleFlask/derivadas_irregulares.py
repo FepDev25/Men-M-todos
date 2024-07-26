@@ -1,42 +1,42 @@
 import numpy as np
-import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+from graficas import graficar_derivadas_irregulares
 
-def derivadas_irregular(x_values, y_values):
-    cifras_redondeo = 7
+def calcular_derivadas_irregulares(pares, punto_estimar, metodo):
+    x_data = np.array([p[0] for p in pares], dtype=float)
+    y_data = np.array([p[1] for p in pares], dtype=float)
+    
+    if metodo not in ['central', 'adelante', 'atras']:
+        raise ValueError("Método no válido. Use 'central', 'adelante' o 'atras'.")
 
-    x_values = np.array(x_values, dtype=float)
-    y_values = np.array(y_values, dtype=float)
+    # Interpolación para los datos irregulares
+    f = interp1d(x_data, y_data, kind='cubic', fill_value="extrapolate")
 
-    n = len(x_values)
-    derivadas = np.zeros(n)
+    # Método de diferencias finitas
+    def diferencias_finitas(f, x, h, metodo):
+        if metodo == 'central':
+            return (f(x + h) - f(x - h)) / (2 * h)
+        elif metodo == 'adelante':
+            return (f(x + h) - f(x)) / h
+        elif metodo == 'atras':
+            return (f(x) - f(x - h)) / h
 
-    for i in range(1, n - 1):
-        h1 = x_values[i] - x_values[i - 1]
-        h2 = x_values[i + 1] - x_values[i]
-        derivadas[i] = ((y_values[i + 1] - y_values[i]) / h2) - ((y_values[i] - y_values[i - 1]) / h1)
-        derivadas[i] /= (h1 + h2) / 2
+    # Estimación de la derivada en el punto dado
+    h = np.min(np.diff(x_data))
+    derivada = diferencias_finitas(f, punto_estimar, h, metodo)
 
-    derivadas[0] = (y_values[1] - y_values[0]) / (x_values[1] - x_values[0])
-    derivadas[-1] = (y_values[-1] - y_values[-2]) / (x_values[-1] - x_values[-2])
+    # Preparación de datos para la gráfica
+    x_interpolado = np.linspace(np.min(x_data), np.max(x_data), 500)
+    y_interpolado = f(x_interpolado)
+    derivadas_interpoladas = [diferencias_finitas(f, x, h, metodo) for x in x_interpolado]
 
-    datos_iteraciones = []
-    for i in range(n):
-        datos_iteraciones.append({
-            'x': float(round(x_values[i], cifras_redondeo)),
-            'y': float(round(y_values[i], cifras_redondeo)),
-            'derivada': float(round(derivadas[i], cifras_redondeo))
-        })
+    # Genera la gráfica de la derivada
+    grafica_path = graficar_derivadas_irregulares(x_interpolado, y_interpolado, derivadas_interpoladas)
 
-    plt.figure()
-    plt.plot(x_values, y_values, 'o', label='Datos')
-    plt.plot(x_values, derivadas, '-', label='Derivadas')
-    plt.legend()
-    plt.xlabel('x')
-    plt.ylabel('f(x) y f\'(x)')
-    plt.title('Derivadas de Datos Irregularmente Espaciados')
+    mensaje = f"Derivada estimada en x = {punto_estimar} usando el método {metodo}: {derivada}"
+    resultado = {
+        'x': x_interpolado.tolist(),
+        'y': derivadas_interpoladas
+    }
 
-    grafica_path = 'static/derivadas_irregular.png'
-    plt.savefig(grafica_path)
-    plt.close()
-
-    return "Cálculo completado", datos_iteraciones, grafica_path
+    return mensaje, resultado, grafica_path
