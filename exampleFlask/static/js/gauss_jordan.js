@@ -1,54 +1,65 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('gaussJordanForm');
     const matrixSizeInput = document.getElementById('matrixSize');
+    const matrixInputsContainer = document.getElementById('matrixInputs');
     const generateMatrixButton = document.getElementById('generateMatrix');
-    const matrixInputs = document.getElementById('matrixInputs');
 
-    generateMatrixButton.addEventListener('click', generateMatrixInputs);
-    form.addEventListener('submit', handleSubmit);
-
-    function generateMatrixInputs() {
+    generateMatrixButton.addEventListener('click', function() {
         const size = parseInt(matrixSizeInput.value);
-        let html = '';
+        matrixInputsContainer.innerHTML = '';
 
         for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-                html += `<input class="controls matrix-input" type="number" name="A_${i}_${j}" placeholder="A[${i+1}][${j+1}]">`;
+            for (let j = 0; j < size + 1; j++) {
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.className = 'controls';
+                input.id = `matrix_${i}_${j}`;
+                input.name = `matrix_${i}_${j}`;
+                input.placeholder = `A[${i + 1}][${j + 1}]`;
+                matrixInputsContainer.appendChild(input);
             }
-            html += `<input class="controls matrix-input" type="number" name="b_${i}" placeholder="b[${i+1}]"><br>`;
+            matrixInputsContainer.appendChild(document.createElement('br'));
         }
+    });
 
-        matrixInputs.innerHTML = html;
-    }
-
-    function handleSubmit(event) {
+    form.addEventListener('submit', function(event) {
         event.preventDefault();
+
         const size = parseInt(matrixSizeInput.value);
-        const A = [];
-        const b = [];
+        const matrix = [];
 
         for (let i = 0; i < size; i++) {
-            A[i] = [];
-            for (let j = 0; j < size; j++) {
-                A[i][j] = parseFloat(form[`A_${i}_${j}`].value);
+            const row = [];
+            for (let j = 0; j < size + 1; j++) {
+                const input = document.getElementById(`matrix_${i}_${j}`).value.trim();
+                if (!input) {
+                    alert('Por favor, complete todos los campos de la matriz.');
+                    return;
+                }
+                row.push(parseFloat(input));
             }
-            b[i] = parseFloat(form[`b_${i}`].value);
+            matrix.push(row);
         }
+
+        const data = {
+            matrix: matrix
+        };
 
         fetch('/api/gauss_jordan', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ A, b })
+            body: JSON.stringify(data)
         })
         .then(response => response.json())
         .then(result => {
-            document.getElementById('pasos').textContent = result.steps.join('\n\n');
-            document.getElementById('solucion').textContent = `x = [${result.solution.join(', ')}]`;
-            document.getElementById('grafica').src = '/static/gauss_jordan_solution.png?' + new Date().getTime();
-            document.getElementById('resultados').style.display = 'block';
+            const pasos = document.getElementById('pasos');
+            const solucion = document.getElementById('solucion');
+
+            pasos.textContent = result.pasos.join('\n');
+            solucion.textContent = result.solucion.join('\n');
         })
         .catch(error => console.error('Error:', error));
-    }
+    });
 });

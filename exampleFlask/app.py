@@ -480,19 +480,19 @@ def api_gauss_simple_pivoteo():
 @app.route('/api/gauss_jordan', methods=['POST'])
 def api_gauss_jordan():
     data = request.json
-    A = np.array(data['A'])
-    b = np.array(data['b'])
+    matrix = np.array(data['matrix'])
+    A = matrix[:, :-1]
+    b = matrix[:, -1]
 
-    try:
-        x, steps = gauss_jordan(A, b)
-        formatted_steps = format_steps(steps)
-        plot_solution(A, b, x)
-        return jsonify({
-            'solution': x.tolist(),
-            'steps': formatted_steps
-        })
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
+    x, steps = gauss_jordan(A, b)
+    plot_solution(A, b, x)
+    formatted_steps = format_steps(steps)
+
+    return jsonify({
+        'pasos': formatted_steps,
+        'solucion': x.tolist(),
+    })
+
 
 @app.route('/api/cuadratura_gauss', methods=['POST'])
 def api_cuadratura_gauss():
