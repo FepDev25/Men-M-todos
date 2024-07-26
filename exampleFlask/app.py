@@ -464,18 +464,19 @@ def api_gauss_simple():
 @app.route('/api/gauss_simple_pivoteo', methods=['POST'])
 def api_gauss_simple_pivoteo():
     data = request.json
-    A = data.get('A')
-    b = data.get('b')
+    matrizA = data.get('matrizA')
+    vectorB = data.get('vectorB')
 
-    try:
-        solucion, pasos = resolver_gauss_simple_pivoteo(A, b)
-        return jsonify({
-            'solucion': solucion,
-            'pasos': pasos
-        })
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
+    # Convertir la entrada en matrices numpy
+    A = np.array([list(map(float, row.split(','))) for row in matrizA.split(';')])
+    b = np.array(list(map(float, vectorB.split(','))))
 
+    solucion, pasos = resolver_gauss_simple_pivoteo(A, b)
+
+    return jsonify({
+        'solucion': solucion,
+        'pasos': pasos
+    })
 @app.route('/api/gauss_jordan', methods=['POST'])
 def api_gauss_jordan():
     data = request.json
