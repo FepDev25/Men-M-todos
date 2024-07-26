@@ -203,7 +203,7 @@ def graficar_diferenciacion_numerica(x_data, derivadas):
     plt.close()
 
     return nombre_archivo
-#Metodo graficar derivadas_irregulares
+#Metodo graficar_derivadas_irregulares
 def graficar_derivadas_irregulares(x_data, derivadas, metodo):
     """
     Genera y guarda una gráfica de las derivadas calculadas para datos irregulares.
@@ -228,7 +228,7 @@ def graficar_derivadas_irregulares(x_data, derivadas, metodo):
     plt.grid(True)
     
     # Guardar la gráfica en la carpeta static
-    nombre_archivo = 'grafica_diferenciacion_irregular.png'
+    nombre_archivo = 'grafica_derivadas_irregulares.png'
     plt.savefig(f'static/{nombre_archivo}')
     plt.close()
 
@@ -407,6 +407,11 @@ def graficar_cuadratura_gauss(funcion, a, b, puntos_x, puntos_y, integral_aprox)
 
     directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
     archivo_grafica = os.path.join(directorio_static, 'grafica_cuadratura_gauss.png')
+
+    plt.close()
+
+    return archivo_grafica
+
 def graficar_interpolacion(x, y, nuevos_x, nuevos_y, titulo='Interpolación'):
     plt.figure(figsize=(10, 6))
     
@@ -437,9 +442,6 @@ def graficar_interpolacion(x, y, nuevos_x, nuevos_y, titulo='Interpolación'):
         os.makedirs(directorio_static)
 
     plt.savefig(archivo_grafica)
-    plt.close(fig)
-    
-    return archivo_grafica
     plt.close()
-
+    
     return archivo_grafica
