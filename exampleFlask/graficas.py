@@ -408,6 +408,13 @@ def graficar_cuadratura_gauss(funcion, a, b, puntos_x, puntos_y, integral_aprox)
     directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
     archivo_grafica = os.path.join(directorio_static, 'grafica_cuadratura_gauss.png')
 
+    if os.path.exists(archivo_grafica):
+        os.remove(archivo_grafica)
+    
+    if not os.path.exists(directorio_static):
+        os.makedirs(directorio_static)
+
+    plt.savefig(archivo_grafica)
     plt.close()
 
     return archivo_grafica

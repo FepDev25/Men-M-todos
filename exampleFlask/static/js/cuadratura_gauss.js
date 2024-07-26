@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('error').textContent = result.error.toFixed(6);
 
             const graficaImg = document.getElementById('grafica');
-            graficaImg.src = result.grafica + '?t=' + new Date().getTime();
+            graficaImg.src = '/static/grafica_cuadratura_gauss.png?t=' + new Date().getTime();
             graficaImg.style.display = 'block';
         })
         .catch(error => console.error('Error:', error));
