@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Gauss Simple con Pivoteo Parcial</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/gauss_simple_pivoteo.js') }}" defer></script>
+</head>
+<body>
+    <form id="gaussSimplePivoteoForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Gauss Simple con Pivoteo Parcial</h3>
+
+        <label for="matrizA">Matriz A (separar filas con punto y coma, elementos con comas):</label><br>
+        <textarea id="matrizA" name="matrizA" class="controls" required></textarea><br>
+
+        <label for="vectorB">Vector b (separar elementos con comas):</label><br>
+        <input type="text" id="vectorB" name="vectorB" class="controls" required><br>
+
+        <button type="submit" class="botons">Resolver</button>
+    </form>
+
+    <div id="resultados">
+        <h4>Solución:</h4>
+        <pre id="solucion"></pre>
+
+        <h4>Pasos:</h4>
+        <div id="pasos"></div>
+    </div>
+</body>
+</html>

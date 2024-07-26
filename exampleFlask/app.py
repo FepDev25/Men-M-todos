@@ -12,7 +12,14 @@ from simpson13 import *
 from simpson38 import *
 from trapecio import *
 from derivada_extrapol_r import *
+from gauss_simple import gauss_simple, format_steps
+from gauss_simple_pivoteo import resolver_gauss_simple_pivoteo
+from gauss_jordan import gauss_jordan, format_steps, plot_solution
+from cuadratura_gauss import cuadratura_gauss
+from regresion import calcular_regresion
+
 import os
+import numpy as np 
 
 app = Flask(__name__)
 
@@ -74,6 +81,30 @@ def trapecio_page():
 @app.route('/extrapolacion_richardson.html')
 def extrapolacion_richardson_page():
     return render_template('extrapolacion_richardson.html')
+
+@app.route('/gauss_simple.html')
+def gauss_simple_page():
+    return render_template('gauss_simple.html')
+
+@app.route('/gauss_simple_pivoteo.html')
+def gauss_simple_pivoteo_page():
+    return render_template('gauss_simple_pivoteo.html')
+
+@app.route('/gauss_jordan.html')
+def gauss_jordan_page():
+    return render_template('gauss_jordan.html')
+
+@app.route('/cuadratura_gauss.html')
+def cuadratura_gauss_page():
+    return render_template('cuadratura_gauss.html')
+
+
+@app.route('/regresion.html')
+def regresion_page():
+    return render_template('regresion.html')
+
+
+
 
 @app.route('/api/biseccion', methods=['POST'])
 def api_biseccion():
@@ -346,3 +377,89 @@ def api_extrapolacion_richardson():
 if __name__ == '__main__':
     app.run(debug=True)
 
+
+#gauss simple
+@app.route('/api/gauss_simple', methods=['POST'])
+def api_gauss_simple():
+    data = request.json
+    A = np.array(data['A'])
+    b = np.array(data['b'])
+
+    try:
+        x, steps = gauss_simple(A, b)
+        formatted_steps = format_steps(steps)
+        return jsonify({
+            'solution': x.tolist(),
+            'steps': formatted_steps
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/api/gauss_simple_pivoteo', methods=['POST'])
+def api_gauss_simple_pivoteo():
+    data = request.json
+    A = data.get('A')
+    b = data.get('b')
+
+    try:
+        solucion, pasos = resolver_gauss_simple_pivoteo(A, b)
+        return jsonify({
+            'solucion': solucion,
+            'pasos': pasos
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/api/gauss_jordan', methods=['POST'])
+def api_gauss_jordan():
+    data = request.json
+    A = np.array(data['A'])
+    b = np.array(data['b'])
+
+    try:
+        x, steps = gauss_jordan(A, b)
+        formatted_steps = format_steps(steps)
+        plot_solution(A, b, x)
+        return jsonify({
+            'solution': x.tolist(),
+            'steps': formatted_steps
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/api/cuadratura_gauss', methods=['POST'])
+def api_cuadratura_gauss():
+    data = request.json
+    a = data.get('a')
+    b = data.get('b')
+    n = data.get('n')
+    funcion = data.get('funcion')
+
+    mensaje, integral, archivo_grafica, integral_analitica, error = cuadratura_gauss(funcion, a, b, n)
+    
+    archivo_grafica_nombre = os.path.basename(archivo_grafica) if archivo_grafica else None
+
+    return jsonify({
+        'mensaje': mensaje,
+        'integral': integral,
+        'integral_analitica': integral_analitica,
+        'error': error,
+        'grafica': f'/static/{archivo_grafica_nombre}' if archivo_grafica_nombre else ''
+    })
+
+@app.route('/api/regresion', methods=['POST'])
+def api_regresion():
+    data = request.json
+    x = np.array(data['xValues'])
+    y = np.array(data['yValues'])
+    tipo_regresion = data['tipoRegresion']
+    grado = data['grado']
+
+    try:
+        resultado = calcular_regresion(x, y, tipo_regresion, grado)
+        return jsonify(resultado)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuadratura de Gauss</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/cuadratura_gauss.js') }}" defer></script>
+</head>
+<body>
+    <form id="cuadraturaGaussForm" class="form-register">
+        <h3 class="titulosMetodos">Cuadratura de Gauss</h3>
+
+        <label for="funcion">Función f(x):</label><br>
+        <input type="text" id="funcion" name="funcion" class="controls" required><br>
+
+        <label for="a">Límite inferior (a):</label><br>
+        <input type="number" id="a" name="a" class="controls" required><br>
+
+        <label for="b">Límite superior (b):</label><br>
+        <input type="number" id="b" name="b" class="controls" required><br>
+
+        <label for="n">Número de puntos (n):</label><br>
+        <input type="number" id="n" name="n" class="controls" required><br>
+
+        <button type="submit" class="botons">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <p>Resultado del cálculo:</p>
+        <p>Mensaje: <span id="mensaje"></span></p>
+        <p>Integral aproximada: <span id="integral"></span></p>
+        <p>Integral analítica: <span id="integral_analitica"></span></p>
+        <p>Error: <span id="error"></span></p>
+        <img id="grafica">
+    </div>
+</body>
+</html>

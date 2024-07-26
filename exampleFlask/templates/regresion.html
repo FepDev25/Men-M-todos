@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Regresión Lineal y Polinomial</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/regresion.js') }}" defer></script>
+</head>
+<body>
+    <form id="regresionForm" class="form-register">
+        <h3 class="titulosMetodos">Regresión Lineal y Polinomial</h3>
+
+        <div id="dataInputs">
+            <label for="xValues">Valores de X (separados por coma):</label><br>
+            <input class="controls" type="text" id="xValues" name="xValues" placeholder="Ej: 1,2,3,4,5"><br>
+
+            <label for="yValues">Valores de Y (separados por coma):</label><br>
+            <input class="controls" type="text" id="yValues" name="yValues" placeholder="Ej: 2,4,5,4,5"><br>
+        </div>
+
+        <label for="tipoRegresion">Tipo de Regresión:</label><br>
+        <select class="controls" id="tipoRegresion" name="tipoRegresion">
+            <option value="Lineal">Lineal</option>
+            <option value="Polinomial">Polinomial</option>
+        </select><br>
+
+        <div id="gradoInput" style="display: none;">
+            <label for="grado">Grado del polinomio:</label><br>
+            <input class="controls" type="number" id="grado" name="grado" min="2" max="6" value="2"><br>
+        </div>
+
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados" style="display: none;">
+        <h3>Resultado:</h3>
+        <p>Ecuación de regresión: <span id="ecuacion"></span></p>
+        <p>Coeficiente de determinación (R²): <span id="rSquared"></span></p>
+        <h3>Gráfica:</h3>
+        <img id="grafica">
+    </div>
+</body>
+</html>

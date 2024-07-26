@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Gauss-Jordan</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/gauss_jordan.js') }}" defer></script>
+</head>
+<body>
+    <form id="gaussJordanForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Gauss-Jordan</h3>
+
+        <label for="matrixSize">Tamaño de la matriz:</label><br>
+        <input class="controls" type="number" id="matrixSize" name="matrixSize" min="2" value="3"><br>
+
+        <div id="matrixInputs"></div>
+
+        <button class="botons" type="button" id="generateMatrix">Generar matriz</button>
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <h3>Pasos del método:</h3>
+        <pre id="pasos"></pre>
+        <h3>Solución:</h3>
+        <pre id="solucion"></pre>
+        <img id="grafica">
+    </div>
+</body>
+</html>

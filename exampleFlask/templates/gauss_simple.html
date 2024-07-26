@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método de Gauss Simple</title>
+    <link rel="stylesheet" href="../static/estilos.css">
+    <script src="{{ url_for('static', filename='js/gauss_simple.js') }}" defer></script>
+</head>
+<body>
+    <form id="gaussSimpleForm" class="form-register">
+        <h3 class="titulosMetodos">Método de Gauss Simple</h3>
+
+        <label for="matrixSize">Tamaño de la matriz:</label><br>
+        <input class="controls" type="number" id="matrixSize" name="matrixSize" min="2" max="10" value="3"><br>
+        <button type="button" class="botons" onclick="generateMatrixInputs()">Generar matriz</button>
+
+        <div id="matrixInputs"></div>
+
+        <button class="botons" type="submit">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <h3>Pasos de la eliminación:</h3>
+        <pre id="steps"></pre>
+        <h3>Solución:</h3>
+        <p id="solution"></p>
+    </div>
+</body>
+</html>

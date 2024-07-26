@@ -309,3 +309,46 @@ def graficar_derivada(x0, h1, h2, funcion, puntos_x, puntos_y, titulo, pendiente
     plt.close()
 
     return archivo_grafica
+
+def graficar_cuadratura_gauss(funcion, a, b, puntos_x, puntos_y, integral_aprox):
+    x = sp.Symbol('x')
+    f = sp.lambdify(x, funcion)
+
+    x_vals = np.linspace(a, b, 1000)
+    y_vals = f(x_vals)
+
+    fig, ax = plt.subplots()
+    ax.plot(x_vals, y_vals, label='Función')
+    ax.scatter(puntos_x, puntos_y, color='red', label='Puntos de Gauss')
+    
+    # Dibujar rectángulos para representar la aproximación
+    for i in range(len(puntos_x)):
+        rect_width = (b - a) / len(puntos_x)
+        rect_height = puntos_y[i]
+        rect_x = puntos_x[i] - rect_width / 2
+        ax.add_patch(plt.Rectangle((rect_x, 0), rect_width, rect_height, 
+                                   fill=False, edgecolor='g', linestyle='--'))
+
+    ax.set_xlabel('x')
+    ax.set_ylabel('f(x)')
+    ax.set_title('Cuadratura de Gauss')
+    ax.legend()
+    ax.grid(True)
+
+    # Añadir texto con el valor de la integral aproximada
+    ax.text(0.05, 0.95, f'Integral aprox: {integral_aprox:.6f}', 
+            transform=ax.transAxes, verticalalignment='top')
+
+    directorio_static = os.path.abspath(os.path.join(os.getcwd(), 'static'))
+    archivo_grafica = os.path.join(directorio_static, 'grafica_cuadratura_gauss.png')
+
+    if os.path.exists(archivo_grafica):
+        os.remove(archivo_grafica)
+    
+    if not os.path.exists(directorio_static):
+        os.makedirs(directorio_static)
+
+    plt.savefig(archivo_grafica)
+    plt.close(fig)
+    
+    return archivo_grafica
