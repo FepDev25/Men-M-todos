@@ -14,6 +14,7 @@ from trapecio import *
 from derivada_extrapol_r import *
 from interpolacion import *
 from diferenciacion_numerica import *
+from derivadas_irregulares import *
 
 import os
 
@@ -41,6 +42,10 @@ def trazadores_cubicos_page():
 @app.route('/diferenciacion_numerica.html')
 def diferenciacion_numerica_page():
     return render_template('diferenciacion_numerica.html')
+
+@app.route('/derivadas_irregulares.html')
+def derivadas_irregulares_page():
+    return render_template('derivadas_irregulares.html')
 
 
 @app.route('/static/<path:filename>')
@@ -396,6 +401,23 @@ def api_diferenciacion_numerica():
         return jsonify({'mensaje': mensaje, 'resultado': resultado})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+@app.route('/api/derivadas_irregulares', methods=['POST'])
+def api_derivadas_irregulares():
+    data = request.json
+    pares = data.get('pares', [])
+    punto_estimar = data.get('punto_estimar')
+    metodo = data.get('metodo')
+    
+    if not pares or punto_estimar is None or not metodo:
+        return jsonify({'error': 'Datos incompletos.'}), 400
+    
+    try:
+        mensaje, resultado, grafica_path = calcular_derivadas_irregulares(pares, punto_estimar, metodo)
+        return jsonify({'mensaje': mensaje, 'resultado': resultado, 'grafica': grafica_path})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
