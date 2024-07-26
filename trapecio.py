@@ -1,1 +1,0 @@
-# Metodo de trapecio

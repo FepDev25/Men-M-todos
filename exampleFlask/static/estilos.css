@@ -1,8 +1,34 @@
+html{
+    box-sizing: border-box;
+}
+
 .titulo{
     text-align: center;
     padding-top: 20px;
     padding-bottom: 20px;
     color: #fff;
+}
+
+.navegacion_principal{
+    display: flex;
+    flex-direction:row; 
+    align-items: center;
+}
+
+.navegacion_principal a{
+    color: #000000;
+    padding: 0 0.7em 0 0.7em;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold; 
+}
+.navegacion_principal a:hover{
+    color: #928f8f;
+}
+
+.nav-bag{
+    height: 90px;
+    background-color: #8BC9E8; 
 }
 
 .section {
@@ -17,7 +43,7 @@
 
 .button {
     display: inline-block;
-    background-color: #4843D3; 
+    background-color:  #1f53c5;
     color: white;
     padding: 10px 20px;
     margin: 5px;
@@ -31,6 +57,11 @@
 }
 
 
+/* Contenedor multiuso*/
+.contenedor{
+    max-width: 120rem;
+    margin: auto; /*  0 auto 0 auto */
+}
 
 .section p {
     color: #333; /* Un gris oscuro para contraste */
@@ -46,6 +77,16 @@
 
 body {
 background-image: url('fondo.jpg');
+}
+
+.icono {
+    text-align: center;
+    img {
+        height: 10rem;
+    }
+    h3 {
+        text-transform: uppercase;
+    }
 }
 
 .form-register {
@@ -169,4 +210,59 @@ font-size: 16px;
     font-size: 18px;
     font-weight: bold;
     color: #0056b3;
+}
+
+.contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.seccion {
+    text-align: center;
+}
+
+.iconos-nosotros {
+    display: flex;
+    justify-content: space-around; 
+    align-items: flex-start; 
+    gap: 2rem; 
+    margin-top: 2rem;
+}
+
+.icono img {
+    width: 100px; 
+    height: auto;
+}
+
+.icono h3 {
+    margin: 1rem 0;
+}
+
+.icono p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #000;
+    text-align: justify;
+}
+
+.footer {
+    padding: 5px;
+    background-color: #0056b3;
+    margin-bottom: 0;
+
+    .contenedor-footer {
+        padding-top: 5px
+    }
+
+    .navegacion {
+        visibility: visible;
+        opacity: 1;
+        height: auto;
+    }
+
+    .copyright {
+        color: #fff;
+        text-align: center;
+    }
 }
