@@ -8,13 +8,24 @@
 </head>
 <body>
     <div class="info-individual">
-        <h1>Metodo de Runge Kutta</h1>
-        <p> <br><br>
-            <h3>Indicaciones:</h3>
-           
-            <h3>Ingresos:</h3>
-            
-        </p>
+        <h1>Método de Runge-Kutta Cuarto Orden</h1>
+        <p>El método de Runge-Kutta de cuarto orden es un método numérico utilizado para resolver ecuaciones diferenciales ordinarias. Es uno de los métodos más precisos y comunes para la integración numérica, proporcionando una aproximación muy buena de la solución en comparación con otros métodos de menor orden.</p><br><br>
+        <h3>Indicaciones:</h3>
+        <ul>
+            <li>La ecuación diferencial debe estar en la forma y' = f(x, y), donde y' es la derivada de y respecto a x. Ejemplo: y' = x + y.</li>
+            <li>El tamaño del paso (h) debe ser positivo y lo suficientemente pequeño para obtener una buena precisión en la solución.</li>
+            <li>El valor de la incógnita (X final) debe ser mayor que el valor inicial (X0).</li>
+            <li>El método de Runge-Kutta de cuarto orden utiliza cuatro estimaciones intermedias para calcular el valor de la función en el siguiente paso, lo que mejora la precisión del método.</li>
+        </ul>
+
+        <h3>Ingresos:</h3>
+        <ul>
+            <li><b>Ecuación Diferencial:</b> La ecuación en la forma y' = f(x, y) donde y' es la derivada de y respecto a x.</li>
+            <li><b>X0:</b> Valor inicial de la variable independiente x.</li>
+            <li><b>Y0:</b> Valor inicial de la función dependiente y en x0.</li>
+            <li><b>Incógnita (X final):</b> Valor final de la variable independiente hasta donde se desea calcular la solución.</li>
+            <li><b>Paso (h):</b> Tamaño del paso entre los puntos de aproximación.</li>
+        </ul>
     </div>
     <form id="rungeKuttaForm" class="form-register">
         <h3 class="titulosMetodos">Método de Runge-Kutta</h3>

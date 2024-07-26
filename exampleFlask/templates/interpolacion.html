@@ -8,12 +8,21 @@
 </head>
 <body>
     <div class="info-individual">
-        <h1>Metodos de Interpolación</h1>
-        <p> <br><br>
+        <h1>Métodos de Interpolación</h1>
+        <p>La interpolación es un método para estimar valores intermedios entre puntos de datos conocidos. Existen varios métodos de interpolación, cada uno con sus ventajas y aplicaciones particulares. <br><br>
             <h3>Indicaciones:</h3>
-           
-            <h3>Ingresos:</h3>
+            Los valores de X y Y deben ingresarse como una lista de números separados por comas. Ej: 1, 2, 3, 4<br>
+            Los nuevos valores de X deben ingresarse también como una lista de números separados por comas para obtener los valores interpolados.<br>
+            Seleccione el método de interpolación deseado. Si selecciona Splines B-Spline, deberá ingresar el grado del spline (entre 1 y 5).<br><br>
             
+            <h3>Ingresos:</h3>
+            <ul>
+                <li><b>Valores de X:</b> Lista de valores de X conocidos.</li>
+                <li><b>Valores de Y:</b> Lista de valores de Y correspondientes a los valores de X conocidos.</li>
+                <li><b>Nuevos valores de X:</b> Lista de nuevos valores de X para los cuales se desea calcular la interpolación.</li>
+                <li><b>Método de Interpolación:</b> Seleccione el método de interpolación (Lineal, Splines Cúbicos, Splines B-Spline, Polinomios de Lagrange).</li>
+                <li><b>Grado:</b> Grado del spline (solo para Splines B-Spline).</li>
+            </ul>
         </p>
     </div>
     <form id="interpolacionForm" class="form-register">

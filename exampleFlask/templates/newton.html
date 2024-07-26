@@ -8,12 +8,25 @@
 </head>
 <body>
     <div class="info-individual">
-        <h1>Metodo de Newton-Raphson</h1>
-        <p> <br><br>
+        <h1>Método de Newton-Raphson</h1>
+        <p>El método de Newton-Raphson es un algoritmo numérico utilizado para encontrar aproximaciones sucesivas a las raíces de una función real. <br><br>
             <h3>Indicaciones:</h3>
-           
-            <h3>Ingresos:</h3>
+            Las funciones se deben ingresar en términos de x. Ej: x + 45<br>
+            Se debe incluir los signos en cada una de las operaciones. Ej: 2*x + 3*x - (3*x/5) - 12<br>
+            Para potencias se debe utilizar "**". Ej: x**2 - 13<br>
+            Para funciones trigonométricas usar: sin(x), cos(x), tan(x)<br>
+            Para constantes utilizar: "pi" para el número Pi. "E" para el número de Euler.<br>
+            Para logaritmos utilizar: "ln(x)" para logaritmo natural. "log(x, base)" para logaritmos de diferente base. Ej: log(x, 10) + 9<br>
+            Para indicar decimales se usa el punto. Ej: 3.7*x - 15<br><br>
             
+            <h3>Ingresos:</h3>
+            <ul>
+                <li><b>X Inicial:</b> Valor inicial para comenzar las iteraciones.</li>
+                <li><b>Función:</b> La función continua de la cual se desea encontrar la raíz.</li>
+                <li><b>Límite de Iteraciones:</b> Número máximo de iteraciones permitidas para el cálculo.</li>
+                <li><b>Valor de Error Aproximado (%):</b> Tolerancia para el error aproximado.</li>
+                <li><b>Valor de Error Verdadero (%):</b> Tolerancia para el error verdadero.</li>
+            </ul>
         </p>
     </div>
     <form id="newtonRaphsonForm" class="form-register">

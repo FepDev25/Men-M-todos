@@ -8,13 +8,24 @@
 </head>
 <body>
     <div class="info-individual">
-        <h1>Metodo de Euler mejorado</h1>
-        <p> <br><br>
-            <h3>Indicaciones:</h3>
-           
-            <h3>Ingresos:</h3>
-            
-        </p>
+        <h1>Método de Euler Mejorado</h1>
+        <p>El método de Euler Mejorado, también conocido como método de Heun, es una mejora del método de Euler. En lugar de utilizar solo el valor de la pendiente al inicio del intervalo para calcular el próximo valor, el método de Euler Mejorado utiliza una estimación más precisa tomando en cuenta el valor de la pendiente al final del intervalo también.</p><br><br>
+        <h3>Indicaciones:</h3>
+        <ul>
+            <li>La ecuación diferencial debe estar en la forma y' = f(x, y), donde y' es la derivada de y respecto a x. Ejemplo: y' = x + y.</li>
+            <li>El tamaño del paso (h) debe ser positivo y pequeño para obtener una mayor precisión en la solución.</li>
+            <li>El valor de la incógnita (X final) debe ser mayor que el valor inicial (X0).</li>
+            <li>El método mejora la aproximación al considerar la pendiente en dos puntos diferentes dentro del intervalo.</li>
+        </ul>
+
+        <h3>Ingresos:</h3>
+        <ul>
+            <li><b>Ecuación Diferencial:</b> La ecuación en la forma y' = f(x, y) donde y' es la derivada de y respecto a x.</li>
+            <li><b>X0:</b> Valor inicial de la variable independiente x.</li>
+            <li><b>Y0:</b> Valor inicial de la función dependiente y en x0.</li>
+            <li><b>Incógnita (X final):</b> Valor final de la variable independiente hasta donde se desea calcular la solución.</li>
+            <li><b>Paso (h):</b> Tamaño del paso entre los puntos de aproximación.</li>
+        </ul>
     </div>
     <form id="eulerMejoradoForm" class="form-register">
         <h3 class="titulosMetodos">Método de Euler Mejorado</h3>
