@@ -4,7 +4,7 @@ from graficas import graficar_cerrados
 import os
 
 def falsa_pocision(xi, xu, mi_funcion, max_pasadas, porcentaje_aproximado, porcentaje_verdadero):
-    porcentaje_aprox = porcentaje_aprox / 100
+    porcentaje_aproximado = porcentaje_aproximado / 100
     porcentaje_verdadero = porcentaje_verdadero / 100
     
     cifras_redondeo = 7
