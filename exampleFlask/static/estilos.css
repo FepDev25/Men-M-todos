@@ -28,7 +28,7 @@ html{
 
 .nav-bag{
     height: 90px;
-    background-color: #8BC9E8; 
+    background-color:#D1E9FF;
 }
 
 .section {
@@ -67,8 +67,6 @@ html{
     color: #333; /* Un gris oscuro para contraste */
 }
 
-
-
 * {
     margin: 0;
     padding: 0;
@@ -76,8 +74,7 @@ html{
 }
 
 body {
-background-image: url('fondo.jpg');
-}
+background-color: #465E75;}
 
 .icono {
     text-align: center;
@@ -87,6 +84,7 @@ background-image: url('fondo.jpg');
     h3 {
         text-transform: uppercase;
     }
+    
 }
 
 .form-register {
@@ -100,6 +98,31 @@ font-family: 'calibri';
 color: white;
 box-shadow: 7px 13px 37px #000;
 }
+
+.info {
+    width: 700px;
+    background: #24303c;
+    padding: 30px;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: #D1E9FF;
+    box-shadow: 7px 13px 37px #000;
+    }
+
+
+.info-sections {
+    width: 900px;
+    background: #24303c;
+    padding: 30px;
+    margin: auto;
+    margin-top: 60px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: white;
+    box-shadow: 7px 13px 37px #000;
+    }
 
 .form-register h4 {
 font-size: 22px;
@@ -189,18 +212,15 @@ font-size: 16px;
     border-bottom: 1px solid #ddd;
 }
 
-/* Estilo para los encabezados de la tabla */
 #resultados th {
     background-color: #f4f4f4;
     font-weight: bold;
 }
 
-/* Estilo para las filas alternas */
 #resultados tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-/* Estilo para las filas al pasar el ratón */
 #resultados tr:hover {
     background-color: #f1f1f1;
 }
@@ -248,21 +268,26 @@ font-size: 16px;
 
 .footer {
     padding: 5px;
-    background-color: #0056b3;
+    background-color:#D1E9FF;
     margin-bottom: 0;
+    margin-top: 60px;
+    color: #000;
 
     .contenedor-footer {
         padding-top: 5px
     }
 
-    .navegacion {
-        visibility: visible;
-        opacity: 1;
-        height: auto;
-    }
-
     .copyright {
-        color: #fff;
+        color: #000;
         text-align: center;
     }
+}
+
+.info p{
+    color: #D1E9FF;
+}
+
+a{
+    color: #CAD914;
+    text-decoration: none;
 }
