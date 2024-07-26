@@ -1,42 +1,53 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("derivadasIrregularForm");
-
-    form.addEventListener("submit", function (event) {
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('derivadasIrregularesForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const x_values = document.getElementById("x_values").value.split(",").map(Number);
-        const y_values = document.getElementById("y_values").value.split(",").map(Number);
+        const pares = document.getElementById('pares').value.trim();
+        const puntoEstimar = parseFloat(document.getElementById('punto_estimar').value.trim());
+        const metodo = document.getElementById('metodo').value;
+
+        if (!pares || isNaN(puntoEstimar)) {
+            alert('Por favor, complete todos los campos correctamente.');
+            return;
+        }
+
+        const paresArray = pares.split(';').map(pair => {
+            const [x, y] = pair.split(',').map(Number);
+            return [x, y];
+        });
 
         const data = {
-            x_values: x_values,
-            y_values: y_values
+            pares: paresArray,
+            punto_estimar: puntoEstimar,
+            metodo: metodo
         };
 
-        fetch("/api/derivadas_irregular", {
-            method: "POST",
+        fetch('/api/derivadas_irregulares', {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
         .then(response => response.json())
         .then(result => {
-            document.getElementById("mensaje").textContent = result.mensaje;
+            const resultadosDiv = document.getElementById('resultados');
 
-            const tbody = document.getElementById("tabla-resultados").getElementsByTagName("tbody")[0];
-            tbody.innerHTML = "";  // Limpiar la tabla antes de agregar nuevos datos
+            if (result.error) {
+                alert('Error: ' + result.error);
+                return;
+            }
 
-            result.datos_iteraciones.forEach(iteracion => {
-                const row = tbody.insertRow();
-                row.insertCell(0).textContent = iteracion.x;
-                row.insertCell(1).textContent = iteracion.y;
-                row.insertCell(2).textContent = iteracion.derivada;
-            });
+            resultadosDiv.querySelector('#mensaje').textContent = result.mensaje;
 
-            document.getElementById("grafica").src = result.grafica;
+            const graficaImg = document.getElementById('grafica');
+            if (result.grafica && result.grafica !== 'No aplica para este método.') {
+                graficaImg.src = '/static/' + result.grafica + '?t=' + new Date().getTime();
+                graficaImg.style.display = 'block';
+            } else {
+                graficaImg.style.display = 'none';
+            }
         })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+        .catch(error => console.error('Error:', error));
     });
 });
