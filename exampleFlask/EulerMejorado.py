@@ -54,7 +54,7 @@ def euler_mejorado(ecuacion, x0, y0, incog, h):
         datos_iteraciones.append({
             'xi': round(float(xi), digitos_redondeo),
             'yi': round(float(yi), digitos_redondeo),
-            'Yn_1_elv': round(float(Yn_1_elv), digitos_redondeo),
+            'Yn_1_elv': Yn_1_elv,
             'Xn_1': round(float(Xn_1), digitos_redondeo),
             'Yi+1': round(float(Yi1), digitos_redondeo),
             'y_analitica': y_analitica,
